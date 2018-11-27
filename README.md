@@ -1,2 +1,2 @@
-# 2024
-Web implementation of 2024 in pure html, css and javascript.
+# 2048
+Web implementation of 2048 in pure html, css and javascript.
