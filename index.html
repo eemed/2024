@@ -13,10 +13,26 @@
       <h1 class="main-header">2048</h1>
     </header>
 
-    <div class="game-area">
-      <div id="score"></div>
+    <div class="content">
+      <div class="info">
+        <p>Join the tiles to get to the 2048 tile!</p>
+      </div>
 
-      <div id="game"></div>
+      <div class="game-area">
+        <div id="score-display">
+          <p>Your score:<span id="score">0</span></p>
+        </div>
+
+        <div id="game"></div>
+      </div>
+
+      <div class="how-to-play">
+        <p>
+        <span class="miniheader">How to play:</span>
+        Use <span class="emph">arrow keys</span> to move the tiles.
+        When two tiles with the same number touch they merge into one!
+        </p>
+      </div>
     </div>
   </body>
 </html>
