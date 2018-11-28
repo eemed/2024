@@ -71,7 +71,7 @@ body {
   color: white;
   width: 90px;
   height: 90px;
-  margin: 5px;
+  margin: 5px 8px 8px 5px;
   font-size: 25px;
   display: grid;
   box-shadow: 3px 3px #999;
