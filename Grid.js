@@ -1,51 +1,44 @@
-var direction = { "up": 1, "down": 2, "left": 3, "right": 4 };
+const direction = { "up": 1, "down": 2, "left": 3, "right": 4 };
 Object.freeze(direction);
 
 class Grid {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-    this.matrix = this.createMatrix(width, height);
+  constructor(size) {
+    this.size = size;
+    this.matrix = this.createMatrix();
   }
 
-  createMatrix(width, height) {
-    this.matrix = new Array(height);
-    for (let i = 0; i < height; i += 1) {
-      this.matrix[i] = new Array(width);
+  createMatrix() {
+    this.matrix = new Array(this.size);
+    for (let i = 0; i < this.size; i += 1) {
+      this.matrix[i] = new Array(this.size);
     }
-  }
 
-  push(dir) {
-    switch (dir) {
-      case direction.up:
-        this.pushUp();
-        break;
-      case direction.down:
-        this.pushDown();
-        break;
-      case direction.left:
-        this.pushLeft();
-        break;
-      case direction.right:
-        this.pushRight();
-        break;
-      default:
-        break;
+    // Initialize array with null values
+    for (let i = 0; i < this.size; i += 1) {
+      for (let j = 0; j < this.size; j += 1) {
+        this.matrix[i][j] = null;
+      }
     }
+    console.log(this.matrix);
   }
 
-  pushUp() {
+  unusedTiles() {
+    const positions = [];
+
+    this.eachTile(function (x, y, tile) {
+      if (!tile) {
+        positions.push(new Position(x,y));
+      }
+    });
+    return positions;
   }
 
-  pushDown() {
-    
-  }
-
-  pushLeft() {
-    
-  }
-
-  pushRight() {
-    
+  eachTile(callback) {
+    for (let x = 0; x < this.size; x += 1) {
+      for (let y = 0; y < this.size; y += 1) {
+        callback(x, y, this.matrix[x][y]);
+      }
+    }
   }
 }
+const grid = new Grid(4);

@@ -15,4 +15,8 @@ class Tile {
   isWinner() {
     return this.value >= 2048;
   }
+
+  merge() {
+    this.value = this.value * 2;
+  }
 }
