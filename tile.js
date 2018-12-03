@@ -27,4 +27,8 @@ class Tile {
       value: this.value
     };
   }
+
+  updatePosition(pos) {
+    this.position = pos;
+  }
 }

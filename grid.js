@@ -4,25 +4,30 @@ class Grid {
   constructor(size) {
     this.size = size;
     this.matrix = this.createMatrix();
+    console.log(this.matrix);
   }
 
   createMatrix() {
-    this.matrix = new Array(this.size);
+    const matrix = new Array(this.size);
     for (let i = 0; i < this.size; i += 1) {
-      this.matrix[i] = new Array(this.size);
+      matrix[i] = new Array(this.size);
     }
 
     // Initialize array with null values
     for (let i = 0; i < this.size; i += 1) {
       for (let j = 0; j < this.size; j += 1) {
-        this.matrix[i][j] = null;
+        matrix[i][j] = null;
       }
     }
-    console.log(this.matrix);
+    return matrix;
   }
 
-  insertTile(x, y, value) {
+  insertTileTo(x, y, value) {
     this.matrix[x][y] = new Tile(x, y, value);
+  }
+
+  insertTile(tile) {
+    this.matrix[tile.position.x][tile.position.y] = tile;
   }
 
   swapTiles(pos, pos2) {
@@ -43,11 +48,19 @@ class Grid {
     }
   }
 
+  debug() {
+    this.eachTile((x, y, tile) => {
+      if (tile) {
+        console.log('(', tile.position.x,
+          ',', tile.position.y, '), with value ', tile.value)
+      }
+    })
+  }
+
   moveTile(from, to)  {
     this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
-    // TODO update tile prev location
     this.removeTile(from.x, from.y);
-
+    this.matrix[to.x][to.y].updatePosition(to);
   }
 
   eachRow(callback) {
@@ -64,7 +77,7 @@ class Grid {
     }
   }
 
-  getColumns() {
+  getRows() {
     const columns = [];
     for (let y = 0; y < this.size; y += 1) {
       const column = [];
@@ -76,7 +89,7 @@ class Grid {
     return columns;
   }
 
-  getRows() {
+  getColumns() {
     const rows = [];
     for (let x = 0; x < this.size; x += 1) {
       const row = [];
