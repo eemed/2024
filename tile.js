@@ -20,14 +20,10 @@ class Tile {
     return this.value >= 2048;
   }
 
-  doubleValue() {
-    this.value = this.value * 2;
-  }
-
   serialize() {
     return {
       position: this.position.serialize(),
-      prevPosition: this.prevPosition.serialize();
+      prevPosition: this.prevPosition.serialize(),
       value: this.value
     };
   }

@@ -1,4 +1,4 @@
-const direction = { "up": 1, "down": 2, "left": 3, "right": 4 };
+const DIRECTION = { "UP": 1, "DOWN": 2, "LEFT": 3, "RIGHT": 4 };
 
 class Grid {
   constructor(size) {
@@ -22,17 +22,17 @@ class Grid {
   }
 
   insertTile(x, y, value) {
-    matrix[x][y] = new Tile(x, y, value);
+    this.matrix[x][y] = new Tile(x, y, value);
   }
 
   swapTiles(pos, pos2) {
-    let tmp = matrix[pos2.x][pos2.y];
-    matrix[pos2.x][pos2.y] = matrix[pos.x][pos.y];
-    matrix[pos.x][pos.y] = tmp;
+    let tmp = this.matrix[pos2.x][pos2.y];
+    this.matrix[pos2.x][pos2.y] = this.matrix[pos.x][pos.y];
+    this.matrix[pos.x][pos.y] = tmp;
   }
 
   removeTile(x, y) {
-    matrix[x][y] = null;
+    this.matrix[x][y] = null;
   }
 
   eachTile(callback) {
@@ -43,13 +43,62 @@ class Grid {
     }
   }
 
+  moveTile(from, to)  {
+    this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
+    // TODO update tile prev location
+    this.removeTile(from.x, from.y);
+
+  }
+
+  eachRow(callback) {
+    const rows = this.getRows();
+    for (let i = 0; i < rows.length; i += 1) {
+      callback(rows[i]);
+    }
+  }
+
+  eachColumn(callback) {
+    const columns = this.getColumns();
+    for (let i = 0; i < columns.length; i += 1) {
+      callback(columns[i]);
+    }
+  }
+
+  getColumns() {
+    const columns = [];
+    for (let y = 0; y < this.size; y += 1) {
+      const column = [];
+      for (let x = 0; x < this.size; x += 1) {
+        column.push(this.matrix[x][y]);
+      }
+      columns.push(column);
+    }
+    return columns;
+  }
+
+  getRows() {
+    const rows = [];
+    for (let x = 0; x < this.size; x += 1) {
+      const row = [];
+      for (let y = 0; y < this.size; y += 1) {
+        row.push(this.matrix[x][y]);
+      }
+      rows.push(row);
+    }
+    return rows;
+  }
+
   isFull() {
     return this.unusedTiles().length === 0;
   }
 
+  isTile(pos) {
+    return this.matrix[pos.x][pos.y] !== null;
+  }
+
   getRandomUnusedTile() {
     const unusedPositions = this.unusedTiles();
-    return unusedPosition[Math.floor(Math.random() * unusedPositions.length)];
+    return unusedPositions[Math.floor(Math.random() * unusedPositions.length)];
   }
 
   unusedTiles() {
