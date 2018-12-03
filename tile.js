@@ -16,7 +16,7 @@ class Tile {
     return this.value >= 2048;
   }
 
-  merge() {
+  doubleValue() {
     this.value = this.value * 2;
   }
 }
