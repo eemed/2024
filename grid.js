@@ -25,6 +25,12 @@ class Grid {
     matrix[x][y] = new Tile(x, y, value);
   }
 
+  swapTiles(pos, pos2) {
+    let tmp = matrix[pos2.x][pos2.y];
+    matrix[pos2.x][pos2.y] = matrix[pos.x][pos.y];
+    matrix[pos.x][pos.y] = tmp;
+  }
+
   removeTile(x, y) {
     matrix[x][y] = null;
   }
@@ -37,14 +43,17 @@ class Grid {
     }
   }
 
+  isFull() {
+    return this.unusedTiles().length === 0;
+  }
+
   getRandomUnusedTile() {
-    const unusedPositions = this.unusedTiles;
+    const unusedPositions = this.unusedTiles();
     return unusedPosition[Math.floor(Math.random() * unusedPositions.length)];
   }
 
   unusedTiles() {
     const positions = [];
-
     this.eachTile(function (x, y, tile) {
       if (!tile) {
         positions.push(new Position(x,y));
@@ -53,4 +62,3 @@ class Grid {
     return positions;
   }
 }
-const grid = new Grid(4);
