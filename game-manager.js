@@ -11,7 +11,42 @@ class GameManager {
     this.inputManager.on('restart', this.onRestart.bind(this));
   }
 
-  onMove() {
+  onMove(direction) {
+    this.squeeze(direction);
+    this.merge(direction);
+    this.squeeze(direction);
+  }
+
+  squeeze(direction) {
+    switch (direction) {
+      case DIRECTION.UP:
+        this.squeezeUp();
+        break;
+
+      case DIRECTION.DOWN:
+        break;
+
+      case DIRECTION.LEFT:
+        break;
+
+      case DIRECTION.RIGHT:
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  squeezeUp() {
+    let pos = 0;
+    this.grid.eachColumn(column => {
+      column.forEach(tile => {
+        if (tile && tile.position.y !== pos) {
+          this.grid.moveTile(tile.position, new Position(tile.position.x, pos));
+        }
+        pos += 1;
+      })
+    });
   }
 
   onRestart() {
