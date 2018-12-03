@@ -3,12 +3,16 @@ class Position {
     this.x = x;
     this.y = y;
   }
+
+  serialize() {
+    return { x: this.x, y: this.y };
+  }
 }
 
 class Tile {
-  constructor(x, y, value) {
-    this.position = new Position(x, y);
-    this.prevPosition = new Position(x, y);
+  constructor(pos, value) {
+    this.position = pos;
+    this.prevPosition = new Position(pos.x, pos.y);
     this.value = value;
   }
 
@@ -18,5 +22,13 @@ class Tile {
 
   doubleValue() {
     this.value = this.value * 2;
+  }
+
+  serialize() {
+    return {
+      position: this.position.serialize(),
+      prevPosition: this.prevPosition.serialize();
+      value: this.value
+    };
   }
 }
