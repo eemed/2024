@@ -7,8 +7,15 @@ class GameManager {
     this.renderer = renderer;
 
     // Pass in methods from this class
-    this.inputManager.on('move', this.onMove.bind(this));
-    this.inputManager.on('restart', this.onRestart.bind(this));
+    // this.inputManager.on('move', this.onMove.bind(this));
+    // this.inputManager.on('restart', this.onRestart.bind(this));
+    //
+    this.addRandomTile();
+    this.addRandomTile();
+
+    this.grid.debug()
+    this.squeezeUp();
+    this.grid.debug()
   }
 
   onMove(direction) {
@@ -38,13 +45,15 @@ class GameManager {
   }
 
   squeezeUp() {
-    let pos = 0;
     this.grid.eachColumn(column => {
+      let pos = 0;
       column.forEach(tile => {
-        if (tile && tile.position.y !== pos) {
-          this.grid.moveTile(tile.position, new Position(tile.position.x, pos));
+        if (tile) {
+          if (tile.position.y !== pos) {
+            this.grid.moveTile(tile.position, new Position(tile.position.x, pos));
+          }
+          pos += 1;
         }
-        pos += 1;
       })
     });
   }
@@ -55,7 +64,7 @@ class GameManager {
   addRandomTile() {
     if (!this.grid.isFull()) {
       let value = Math.random() < 0.9 ? 2 : 4;
-      let tile = new Tile(this.getRandomUnusedTile(), value);
+      let tile = new Tile(this.grid.getRandomUnusedTile(), value);
       this.grid.insertTile(tile);
     }
   }
