@@ -51,7 +51,7 @@ body {
   padding: 30px;
 }
 
-#game {
+.tile-area {
   border: 7px solid #FFA283;
   border-radius: 5px;
   background: #F4F2F0;
