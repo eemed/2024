@@ -14,7 +14,8 @@ class GameManager {
     this.addRandomTile();
 
     this.grid.debug()
-    this.squeezeUp();
+    this.onMove(DIRECTION.UP);
+    console.log('onMove done')
     this.grid.debug()
   }
 
@@ -22,6 +23,32 @@ class GameManager {
     this.squeeze(direction);
     this.merge(direction);
     this.squeeze(direction);
+    this.addRandomTile();
+  }
+
+  merge(direction) {
+    if (direction === DIRECTION.UP || direction === DIRECTION.DOWN) {
+      this.mergeVertical();
+    }
+    else {
+      this.mergeHorizontal();
+    }
+  }
+
+  mergeVertical() {
+    this.grid.eachColumn( column => {
+      if (column) {
+        for (let i = 1; i < column.length; i += 1) {
+          if (column[i-1] && column[i]
+            && column[i-1].value === column[i].value) {
+            const merged = new Tile(column[i-1].position, column[i-1].value * 2)
+            this.grid.insertTile(merged)
+            this.grid.removeTile(column[i].position.x, column[i].position.y);
+            i += 1;
+          }
+        }
+      }
+    });
   }
 
   squeeze(direction) {
