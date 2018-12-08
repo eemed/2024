@@ -1,6 +1,8 @@
-const DIRECTION = { 'UP': 1, 'DOWN': 2, 'LEFT': 3, 'RIGHT': 4 };
+import Tile, { Position } from './tile';
 
-class Grid {
+export const DIRECTION = { 'UP': 1, 'DOWN': 2, 'LEFT': 3, 'RIGHT': 4 };
+
+export default class Grid {
   constructor(size) {
     this.size = size;
     this.matrix = this.createMatrix();

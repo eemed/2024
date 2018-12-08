@@ -1,4 +1,7 @@
-class GameManager {
+import Grid, { DIRECTION } from './grid';
+import Tile, { Position } from './tile';
+
+export default class GameManager {
   constructor(size, inputManager, renderer) {
     this.score = 0;
     this.grid = new Grid(size);
@@ -13,7 +16,7 @@ class GameManager {
     this.addRandomTile();
     this.addRandomTile();
 
-    this.grid.debug()
+    this.grid.debug();
     this.onMove(DIRECTION.UP);
     console.log('onMove done')
     this.grid.debug()

@@ -1,4 +1,4 @@
-class Position {
+export class Position {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -9,7 +9,7 @@ class Position {
   }
 }
 
-class Tile {
+export default class Tile {
   constructor(pos, value) {
     this.position = pos;
     this.prevPosition = new Position(pos.x, pos.y);
