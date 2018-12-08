@@ -58,12 +58,15 @@ class GameManager {
         break;
 
       case DIRECTION.DOWN:
+        this.squeezeDown();
         break;
 
       case DIRECTION.LEFT:
+        this.squeezeLeft();
         break;
 
       case DIRECTION.RIGHT:
+        this.squeezeRight();
         break;
 
       default:
