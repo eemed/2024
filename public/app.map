@@ -1,1 +1,0 @@
-{"version":3,"sources":["app.js"],"names":["gameMan","GameManager","InputManager","Renderer"],"mappings":";AAAA,IAAMA,EAAU,IAAIC,YAAY,EAAG,IAAIC,aAAgB,IAAIC","file":"app.map","sourceRoot":"../src","sourcesContent":["const gameMan = new GameManager(4, new InputManager(), new Renderer() );\n"]}
