@@ -1,0 +1,28 @@
+{
+  "name": "2048",
+  "version": "1.0.0",
+  "description": "Web implementation of 2048 in pure html, css and javascript.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build src/app.js -o app.js -d public --no-cache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eemed/2048.git"
+  },
+  "author": "Eemeli Lottonen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eemed/2048/issues"
+  },
+  "homepage": "https://github.com/eemed/2048#readme",
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  },
+  "dependencies": {
+    "parcel": "^1.10.3"
+  }
+}

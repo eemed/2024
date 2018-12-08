@@ -1,4 +1,4 @@
-const DIRECTION = { "UP": 1, "DOWN": 2, "LEFT": 3, "RIGHT": 4 };
+const DIRECTION = { 'UP': 1, 'DOWN': 2, 'LEFT': 3, 'RIGHT': 4 };
 
 class Grid {
   constructor(size) {
@@ -31,7 +31,7 @@ class Grid {
   }
 
   swapTiles(pos, pos2) {
-    let tmp = this.matrix[pos2.x][pos2.y];
+    const tmp = this.matrix[pos2.x][pos2.y];
     this.matrix[pos2.x][pos2.y] = this.matrix[pos.x][pos.y];
     this.matrix[pos.x][pos.y] = tmp;
   }
@@ -116,7 +116,7 @@ class Grid {
 
   unusedTiles() {
     const positions = [];
-    this.eachTile(function (x, y, tile) {
+    this.eachTile((x, y, tile) => {
       if (!tile) {
         positions.push(new Position(x,y));
       }
