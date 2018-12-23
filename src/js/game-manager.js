@@ -24,23 +24,39 @@ export default class GameManager {
 
   onMove(direction) {
     this.merge(direction);
-    this.squeeze(direction);
+    this.move(direction);
     this.addRandomTile();
   }
 
   merge(direction) {
-    if (direction === DIRECTION.UP || direction === DIRECTION.DOWN) {
-      this.mergeVertical();
-    }
-    else {
-      this.mergeHorizontal();
+    switch (direction) {
+      case DIRECTION.UP:
+        this.mergeUp();
+        break;
+
+      case DIRECTION.DOWN:
+        this.mergeDown();
+        break;
+
+      case DIRECTION.LEFT:
+        this.mergeLeft();
+        break;
+
+      case DIRECTION.RIGHT:
+        this.mergeRight();
+        break;
+
+      default:
+        break;
     }
   }
 
-  mergeVertical() {
+  mergeUp(direction) {
     this.grid.eachColumn(column => {
       if (column) {
-        let last = column[0];
+        let goingUp = direction === DIRECTION.UP;
+        let pos = goingUp ? 0 : this.grid.size - 1;
+        let last = column[pos];
 
         for (let i = 1; i < column.length; i += 1) {
           if (column[i]) {
@@ -52,8 +68,6 @@ export default class GameManager {
                   last.position.y),
                 last.value * 2
               );
-
-              console.log('MERGING')
 
               this.grid.insertTile(merged);
               this.grid.removeTile(
@@ -70,40 +84,34 @@ export default class GameManager {
     });
   }
 
-  squeeze(direction) {
-    switch (direction) {
-      case DIRECTION.UP:
-        this.squeezeUp();
-        break;
-
-      case DIRECTION.DOWN:
-        this.squeezeDown();
-        break;
-
-      case DIRECTION.LEFT:
-        this.squeezeLeft();
-        break;
-
-      case DIRECTION.RIGHT:
-        this.squeezeRight();
-        break;
-
-      default:
-        break;
+  move(direction) {
+    if (direction === DIRECTION.UP || direction === DIRECTION.DOWN) {
+        this.moveVertical(direction);
+    } else {
+        this.moveHorizontal(direction);
     }
   }
 
-  squeezeUp() {
+  moveVertical(direction) {
     this.grid.eachColumn(column => {
-      let pos = 0;
-      column.forEach(tile => {
+      let goingUp = (direction === DIRECTION.UP);
+      let pos =  goingUp ? 0 : this.grid.size - 1;
+
+      for (let i = pos;
+        i >= 0 && i < this.grid.size;
+        goingUp ? i += 1 : i -= 1) {
+
+        let tile = column[i];
         if (tile) {
           if (tile.position.y !== pos) {
-            this.grid.moveTile(tile.position, new Position(tile.position.x, pos));
+            this.grid.moveTile(
+              tile.position,
+              new Position(tile.position.x, pos)
+            );
           }
-          pos += 1;
         }
-      })
+        pos += goingUp ? 1 : -1;
+      }
     });
   }
 
