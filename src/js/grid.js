@@ -1,6 +1,8 @@
 import Tile, { Position } from './tile';
 
-export const DIRECTION = { 'UP': 1, 'DOWN': 2, 'LEFT': 3, 'RIGHT': 4 };
+export const DIRECTION = {
+  UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4,
+};
 
 export default class Grid {
   constructor(size) {
@@ -54,12 +56,12 @@ export default class Grid {
     this.eachTile((x, y, tile) => {
       if (tile) {
         console.log('(', tile.position.x,
-          ',', tile.position.y, '), with value ', tile.value)
+          ',', tile.position.y, '), with value ', tile.value);
       }
-    })
+    });
   }
 
-  moveTile(from, to)  {
+  moveTile(from, to) {
     this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
     this.removeTile(from.x, from.y);
     this.matrix[to.x][to.y].updatePosition(to);
@@ -120,7 +122,7 @@ export default class Grid {
     const positions = [];
     this.eachTile((x, y, tile) => {
       if (!tile) {
-        positions.push(new Position(x,y));
+        positions.push(new Position(x, y));
       }
     });
     return positions;
