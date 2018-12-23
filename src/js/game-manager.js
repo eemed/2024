@@ -176,8 +176,11 @@ export default class GameManager {
   }
 
   merge(tile, other) {
+    const mergeValue = tile.value * 2;
+    if (mergeValue === 2048) { this.won = true };
+    this.score += mergeValue;
     this.grid.removeTile(other.position.x, other.position.y);
-    this.grid.insertTile(new Tile(tile.position, tile.value * 2));
+    this.grid.insertTile(new Tile(tile.position, mergeValue));
   }
 
   onRestart() {
