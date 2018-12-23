@@ -47,10 +47,13 @@ export default class GameManager {
             if (last && column[i].value === last.value) {
 
               const merged = new Tile(
-                last.position.x,
-                last.position.y,
+                new Position(
+                  last.position.x,
+                  last.position.y),
                 last.value * 2
               );
+
+              console.log('MERGING')
 
               this.grid.insertTile(merged);
               this.grid.removeTile(
