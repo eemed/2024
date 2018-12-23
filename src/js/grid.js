@@ -4,6 +4,15 @@ export const DIRECTION = {
   UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4,
 };
 
+/*
+          X
+    +------------>
+    | 0,0   1,0
+    |
+ Y  | 0,1
+    |
+    V
+*/
 export default class Grid {
   constructor(size) {
     this.size = size;

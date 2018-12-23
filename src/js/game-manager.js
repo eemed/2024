@@ -17,102 +17,167 @@ export default class GameManager {
     this.addRandomTile();
 
     this.grid.debug();
-    this.onMove(DIRECTION.UP);
-    console.log('onMove done')
+    this.onMove(DIRECTION.RIGHT);
+    console.log('--')
     this.grid.debug()
   }
 
-  onMove(direction) {
-    this.merge(direction);
-    this.move(direction);
-    this.addRandomTile();
-  }
+  /**
+   * Move and merge tiles to specified direction
+   * @param direction diretion to move and merge tiles
+   */
 
-  merge(direction) {
+  onMove(direction) {
     switch (direction) {
       case DIRECTION.UP:
-        this.mergeUp();
+        this.moveUp();
         break;
-
       case DIRECTION.DOWN:
-        this.mergeDown();
+        this.moveDown();
         break;
-
       case DIRECTION.LEFT:
-        this.mergeLeft();
+        this.moveLeft();
         break;
-
       case DIRECTION.RIGHT:
-        this.mergeRight();
+        this.moveRight();
         break;
-
       default:
         break;
     }
+    this.addRandomTile();
   }
 
-  mergeUp(direction) {
+  moveUp() {
     this.grid.eachColumn(column => {
-      if (column) {
-        let goingUp = direction === DIRECTION.UP;
-        let pos = goingUp ? 0 : this.grid.size - 1;
-        let last = column[pos];
+      if (!column) return;
 
-        for (let i = 1; i < column.length; i += 1) {
-          if (column[i]) {
-            if (last && column[i].value === last.value) {
+      let availableY = 0;
+      let lastTile = null;
 
-              const merged = new Tile(
-                new Position(
-                  last.position.x,
-                  last.position.y),
-                last.value * 2
-              );
+      for (let i = 0; i < this.grid.size; i += 1) {
+        if (!column[i]) continue;
 
-              this.grid.insertTile(merged);
-              this.grid.removeTile(
-                column[i].position.x,
-                column[i].position.y
-              );
-            }
-            else {
-              last = column[i];
-            }
-          }
-        }
-      }
-    });
-  }
+        const currentTile = column[i];
 
-  move(direction) {
-    if (direction === DIRECTION.UP || direction === DIRECTION.DOWN) {
-        this.moveVertical(direction);
-    } else {
-        this.moveHorizontal(direction);
-    }
-  }
-
-  moveVertical(direction) {
-    this.grid.eachColumn(column => {
-      let goingUp = (direction === DIRECTION.UP);
-      let pos =  goingUp ? 0 : this.grid.size - 1;
-
-      for (let i = pos;
-        i >= 0 && i < this.grid.size;
-        goingUp ? i += 1 : i -= 1) {
-
-        let tile = column[i];
-        if (tile) {
-          if (tile.position.y !== pos) {
+        if (lastTile && lastTile.value === currentTile.value) {
+          this.merge(lastTile, currentTile);
+          lastTile = null;
+        } else {
+          lastTile = currentTile;
+          if (currentTile.position.y !== availableY) {
             this.grid.moveTile(
-              tile.position,
-              new Position(tile.position.x, pos)
+              currentTile.position,
+              new Position(
+                currentTile.position.x,
+                availableY
+              )
             );
           }
+          availableY += 1;
         }
-        pos += goingUp ? 1 : -1;
       }
     });
+  }
+
+  moveDown() {
+    this.grid.eachColumn(column => {
+      if (!column) return;
+
+      let availableY = this.grid.size - 1;
+      let lastTile = null;
+
+      for (let i = this.grid.size - 1; i >= 0; i -= 1) {
+        if (!column[i]) continue;
+
+        const currentTile = column[i];
+
+        if (lastTile && lastTile.value === currentTile.value) {
+          this.merge(lastTile, currentTile);
+          lastTile = null;
+        } else {
+          lastTile = currentTile;
+          if (currentTile.position.y !== availableY) {
+            this.grid.moveTile(
+              currentTile.position,
+              new Position(
+                currentTile.position.x,
+                availableY
+              )
+            );
+          }
+          availableY -= 1;
+        }
+      }
+    });
+  }
+
+  moveLeft() {
+    this.grid.eachRow(row => {
+      if (!row) return;
+
+      let availableX = 0;
+      let lastTile = null;
+
+      for (let i = 0; i < this.grid.size; i += 1) {
+        if (!row[i]) continue;
+
+        const currentTile = row[i];
+
+        if (lastTile && lastTile.value === currentTile.value) {
+          this.merge(lastTile, currentTile);
+          lastTile = null;
+        } else {
+          lastTile = currentTile;
+          if (currentTile.position.x !== availableX) {
+            this.grid.moveTile(
+              currentTile.position,
+              new Position(
+                availableX,
+                currentTile.position.y
+              )
+            );
+          }
+          availableX += 1;
+        }
+      }
+    });
+  }
+
+  moveRight() {
+    this.grid.eachRow(row => {
+      if (!row) return;
+
+      let availableX = this.grid.size - 1;
+      let lastTile = null;
+
+      for (let i = this.grid.size - 1; i >= 0; i -= 1) {
+        if (!row[i]) continue;
+
+        const currentTile = row[i];
+
+        if (lastTile && lastTile.value === currentTile.value) {
+          this.merge(lastTile, currentTile);
+          lastTile = null;
+        } else {
+          lastTile = currentTile;
+          if (currentTile.position.x !== availableX) {
+            this.grid.moveTile(
+              currentTile.position,
+              new Position(
+                availableX,
+                currentTile.position.y
+              )
+            );
+          }
+          availableX -= 1;
+        }
+      }
+    });
+  }
+
+  merge(tile, other) {
+    this.grid.removeTile(other.position.x, other.position.y);
+    this.grid.insertTile(new Tile(tile.position, tile.value * 2));
   }
 
   onRestart() {
