@@ -76,3 +76,7 @@ body {
   display:       grid;
   box-shadow:    3px 3px #999;
 }
+
+.value {
+  margin: auto;
+}
