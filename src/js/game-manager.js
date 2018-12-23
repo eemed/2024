@@ -23,7 +23,6 @@ export default class GameManager {
   }
 
   onMove(direction) {
-    this.squeeze(direction);
     this.merge(direction);
     this.squeeze(direction);
     this.addRandomTile();
@@ -39,15 +38,29 @@ export default class GameManager {
   }
 
   mergeVertical() {
-    this.grid.eachColumn( column => {
+    this.grid.eachColumn(column => {
       if (column) {
+        let last = column[0];
+
         for (let i = 1; i < column.length; i += 1) {
-          if (column[i-1] && column[i]
-            && column[i-1].value === column[i].value) {
-            const merged = new Tile(column[i-1].position, column[i-1].value * 2)
-            this.grid.insertTile(merged)
-            this.grid.removeTile(column[i].position.x, column[i].position.y);
-            i += 1;
+          if (column[i]) {
+            if (last && column[i].value === last.value) {
+
+              const merged = new Tile(
+                last.position.x,
+                last.position.y,
+                last.value * 2
+              );
+
+              this.grid.insertTile(merged);
+              this.grid.removeTile(
+                column[i].position.x,
+                column[i].position.y
+              );
+            }
+            else {
+              last = column[i];
+            }
           }
         }
       }
