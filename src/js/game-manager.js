@@ -1,25 +1,28 @@
 import Grid, { DIRECTION } from './grid';
 import Tile, { Position } from './tile';
+import Renderer from './renderer';
+import InputManager, { EVENTS } from './input-manager';
 
 export default class GameManager {
-  constructor(size, inputManager, renderer) {
+  constructor(size) {
     this.score = 0;
     this.grid = new Grid(size);
     this.won = false;
-    this.inputManager = inputManager;
-    this.renderer = renderer;
+    this.inputManager = new InputManager();
+    this.renderer = new Renderer(this.grid);
 
     // Pass in methods from this class
-    // this.inputManager.on('move', this.onMove.bind(this));
-    // this.inputManager.on('restart', this.onRestart.bind(this));
+    this.inputManager.on(EVENTS.MOVE, this.onMove.bind(this));
+    this.inputManager.on(EVENTS.RESTART, this.onRestart.bind(this));
     //
     this.addRandomTile();
     this.addRandomTile();
 
-    this.grid.debug();
-    this.onMove(DIRECTION.RIGHT);
-    console.log('--')
-    this.grid.debug()
+    // this.grid.debug();
+    // this.onMove(DIRECTION.RIGHT);
+    // console.log('--')
+    // this.grid.debug()
+    this.renderer.render();
   }
 
   /**
@@ -45,6 +48,7 @@ export default class GameManager {
         break;
     }
     this.addRandomTile();
+    this.renderer.render();
   }
 
   moveUp() {
