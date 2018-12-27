@@ -35,6 +35,21 @@ export default class Grid {
     return matrix;
   }
 
+  getValue(i) {
+    if (i < 0 || i > (this.size ** 2) - 1) return '';
+
+    let row = 0;
+    while (i >= 4) {
+      i -= this.size;
+      row += 1;
+    }
+
+    let tile = this.matrix[i][row];
+    if (!tile) { return ''; }
+    return tile.value;
+
+  }
+
   insertTileTo(x, y, value) {
     this.matrix[x][y] = new Tile(x, y, value);
   }
