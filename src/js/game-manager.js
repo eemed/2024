@@ -22,7 +22,7 @@ export default class GameManager {
     // this.onMove(DIRECTION.RIGHT);
     // console.log('--')
     // this.grid.debug()
-    this.renderer.render();
+    //this.renderer.render();
   }
 
   /**
@@ -183,8 +183,11 @@ export default class GameManager {
     const mergeValue = tile.value * 2;
     if (mergeValue === 2048) { this.won = true };
     this.score += mergeValue;
+
     this.grid.removeTile(other.position.x, other.position.y);
-    this.grid.insertTile(new Tile(tile.position, mergeValue));
+    const merged = new Tile(tile.position, mergeValue)
+    merged.setMergedFrom(tile, other);
+    this.grid.insertTile(merged);
   }
 
   onRestart() {
