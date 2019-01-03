@@ -35,7 +35,7 @@ export default class Grid {
     return matrix;
   }
 
-  getValue(i) {
+  getTile(i) {
     if (i < 0 || i > (this.size ** 2) - 1) return '';
 
     let row = 0;
@@ -45,8 +45,8 @@ export default class Grid {
     }
 
     let tile = this.matrix[i][row];
-    if (!tile) { return ''; }
-    return tile.value;
+    if (!tile) { return null; }
+    return tile;
 
   }
 
