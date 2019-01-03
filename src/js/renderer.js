@@ -11,20 +11,14 @@ export default class Renderer {
 
   render() {
     let tiles = document.querySelectorAll('.tile');
-    if (tiles.length !== this.grid.size ** 2) { 
-      console.error(tiles.length , '!==', this.grid.size ** 2, 'The amount of tiles doesnt match grid. Cannot render.')
-      return;
-    }
 
     let position = new Position(0, 0);
 
     for (let i = 0; i < this.grid.size ** 2; ++i) {
-      // TODO match tiles to html tiles
-      const htmlTile = tiles[i];
       const gridTile = this.grid.getTile(i);
-      this.moveTile(htmlTile, gridTile);
-      this.setValue(htmlTile, gridTile);
-      this.setColor(htmlTile, gridTile);
+      this.moveTile(gridTile);
+      this.setValue(gridTile);
+      this.setColor(gridTile);
     }
   }
 
@@ -48,12 +42,6 @@ export default class Renderer {
   moveTile(htmlTile, gridTile) {
     if (gridTile && gridTile.prevPosition !== null) {
       this.animate(htmlTile, gridTile)
-    }
-
-    position.x += TILE_SIZE;
-    if (position.x > TILE_SIZE * this.grid.size - 1) {
-      position.y += TILE_SIZE;
-      position.x = 0;
     }
   }
 
