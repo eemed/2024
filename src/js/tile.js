@@ -1,3 +1,6 @@
+const CSS_TILE_CLASS = 'tile';
+const CSS_VALUE_CLASS = 'value';
+
 export class Position {
   constructor(x, y) {
     this.x = x;
@@ -39,12 +42,24 @@ export function getColor(value) {
 }
 
 export default class Tile {
-  constructor(pos, value, identifier) {
-    this.identifier = identifier;
+  constructor(pos, value, parentElement) {
     this.position = pos;
     this.prevPosition = null;
     this.value = value;
     this.mergedFrom = [];
+    this.html = this.createHTMLTile(parentElement);
+  }
+
+  createHTMLTile() {
+    let tile = document.createElement('div');
+    tile.class = 'tile';
+
+    let value = document.createElement('p');
+    value.class = 'value';
+    value.innerHTML = this.value;
+
+    tile.appendChild(value);
+    parentElement.appendChild(tile);
   }
 
   isWinner() {
@@ -70,7 +85,7 @@ export default class Tile {
     this.mergedFrom = [];
   }
 
-  isMerged() {
+  didMerge() {
     return this.mergedFrom.length > 0;
   }
 
