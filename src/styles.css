@@ -55,13 +55,12 @@ body {
   border:         7px solid #FFA283;
   border-radius:  5px;
   background:     #F4F2F0;
-  display:        flex;
-  flex-direction: column;
-  align-items:    center;
+  width:          433px;
+  height:         433px;
+  position:       relative;
 }
 
 .game-row {
-  display:    flex;
   background: #F4f2f0;
 }
 
@@ -75,6 +74,7 @@ body {
   font-size:     25px;
   display:       grid;
   box-shadow:    3px 3px #999;
+  position:      absolute;
 }
 
 .value {
