@@ -50,16 +50,29 @@ export default class Tile {
     this.html = this.createHTMLTile(parentElement);
   }
 
-  createHTMLTile() {
+  createHTMLTile(parentElement) {
     let tile = document.createElement('div');
-    tile.class = 'tile';
+    tile.className = 'tile';
 
     let value = document.createElement('p');
-    value.class = 'value';
+    value.className = 'value';
     value.innerHTML = this.value;
 
     tile.appendChild(value);
     parentElement.appendChild(tile);
+    return tile;
+  }
+
+  render() {
+    setHTMLValue();
+    if (prevPosition !== null) {
+      // TODO implement animate
+      animate();
+    }
+  }
+
+  setHTMLValue() {
+    this.html.querySelector('value').innerHTML = this.value;
   }
 
   isWinner() {

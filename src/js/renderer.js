@@ -22,21 +22,17 @@ export default class Renderer {
     }
   }
 
-  setValue(htmlTile, gridTile) {
+  setValue(gridTile) {
       if (gridTile) {
-        htmlTile.querySelector('.value').innerHTML = gridTile.value;
-      } else {
-        htmlTile.querySelector('.value').innerHTML = "";
+        gridTile.html.querySelector('value').innerHTML = value;
       }
   }
 
   setColor(htmlTile, gridTile) {
       if (gridTile) {
         const color = getColor(gridTile.value);
-        htmlTile.style.background = color;
-      } else {
-        htmlTile.style.background = getColor()
-      }
+        gridTile.html.style.background = color;
+      } 
   }
 
   moveTile(htmlTile, gridTile) {
