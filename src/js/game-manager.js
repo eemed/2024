@@ -4,25 +4,21 @@ import Renderer from './renderer';
 import InputManager, { EVENTS } from './input-manager';
 
 export default class GameManager {
-  constructor(size) {
+  constructor(size, gameArea) {
     this.score = 0;
     this.grid = new Grid(size);
     this.won = false;
     this.inputManager = new InputManager();
     this.renderer = new Renderer(this.grid);
+    this.gameAreaHTML = document.querySelector('div.tile-area');
 
     // Pass in methods from this class
     this.inputManager.on(EVENTS.MOVE, this.onMove.bind(this));
     this.inputManager.on(EVENTS.RESTART, this.onRestart.bind(this));
-    //
+
     this.addRandomTile();
     this.addRandomTile();
 
-    // this.grid.debug();
-    // this.onMove(DIRECTION.RIGHT);
-    // console.log('--')
-    // this.grid.debug()
-    //this.renderer.render();
   }
 
   /**
@@ -31,6 +27,7 @@ export default class GameManager {
    */
 
   onMove(direction) {
+
     switch (direction) {
       case DIRECTION.UP:
         this.moveUp();
@@ -49,6 +46,7 @@ export default class GameManager {
     }
     this.addRandomTile();
     this.renderer.render();
+
   }
 
   moveUp() {
@@ -185,7 +183,7 @@ export default class GameManager {
     this.score += mergeValue;
 
     this.grid.removeTile(other.position.x, other.position.y);
-    const merged = new Tile(tile.position, mergeValue)
+    const merged = new Tile(tile.position, mergeValue, this.gameAreaHTML)
     merged.setMergedFrom(tile, other);
     this.grid.insertTile(merged);
   }
@@ -196,7 +194,11 @@ export default class GameManager {
   addRandomTile() {
     if (!this.grid.isFull()) {
       let value = Math.random() < 0.9 ? 2 : 4;
-      let tile = new Tile(this.grid.getRandomUnusedTile(), value);
+      let tile = new Tile(
+        this.grid.getRandomUnusedTile(),
+        value,
+        this.gameAreaHTML
+      );
       this.grid.insertTile(tile);
     }
   }
