@@ -61,12 +61,21 @@ export default class Tile {
     this.value = value;
     this.mergedFrom = [];
     this.html = this.createHTMLTile(parentElement);
+    this.parent = parentElement;
+    this.needsAnim = false;
+
+    this.draw = this.draw.bind(this);
+    this.progress = this.progress.bind(this);
+    this.post = this.post.bind(this);
+
+    this.drawMerge = this.drawMerge.bind(this);
+    this.progressMerge = this.progressMerge.bind(this);
+    this.postMerge = this.postMerge.bind(this);
 
     this.instantRender();
   }
 
   createHTMLTile(parentElement) {
-    console.log('create')
     let tile = document.createElement('div');
     tile.className = CSS_TILE_CLASS;
 
@@ -79,49 +88,52 @@ export default class Tile {
     return tile;
   }
 
-  render() {
-    this.setHTMLValue();
-
-    if (this.prevPosition != null) {
-      if ( this.prevPosition.x !== this.position.x ||
-        this.prevPosition.y !== this.position.y) {
-
-        this.animate();
-      }
-    } else if (this.mergedFrom.length > 0) {
-      this.animateMerge();
+  removeMerged() {
+    for (let i = 0; i < this.mergedFrom.length; ++i) {
+      this.parent.removeChild(this.mergedFrom[i].html);
     }
+    this.mergedFrom = [];
   }
 
-  animateMerge() {
-    console.log('merge Anim');
+  progressMerge(time) {
+    let tile = this.mergedFrom[0];
+    let other = this.mergedFrom[1];
+    let tileProg = tile.progress(time);
+    let otherProg = other.progress(time);
+    return { tileProg, otherProg };
   }
 
-  animate() {
-    let id = setInterval(frame, 5, this);
+  drawMerge(progress) {
+    let tile = this.mergedFrom[0];
+    let other = this.mergedFrom[1];
 
-    let from = this.prevPosition.clone().multiply(TILE_TOTAL);
-    let to = this.position.clone().multiply(TILE_TOTAL);
-
-    function frame(tile) {
-      if (from.x === to.x && from.y === to.y) {
-        clearInterval(id);
-        tile.prevPosition = null;
-      } else if (from.x > to.x) {
-        from.x -= 1;
-      } else if (from.x < to.x) {
-        from.x += 1;
-      } else if (from.y > to.y) {
-        from.y -= 1;
-      } else if (from.y < to.y) {
-        from.y += 1;
-      }
-
-      tile.html.style.top = from.y + "px";
-      tile.html.style.left = from.x + "px";
-    }
+    tile.draw(progress.tileProg);
+    tile.draw(progress.otherProg);
   }
 
+  postMerge() {
+    this.removeMerged();
+    this.needsAnim = false;
+  }
+
+
+  draw(progress) {
+    let x = this.prevPosition.x * TILE_TOTAL + progress.x;
+    let y = this.prevPosition.y * TILE_TOTAL + progress.y;
+    this.html.style.top = y + "px";
+    this.html.style.left = x + "px";
+  }
+
+  progress(time) {
+    let progX = (this.position.x - this.prevPosition.x) * TILE_TOTAL * time;
+    let progY = (this.position.y - this.prevPosition.y) * TILE_TOTAL * time;
+    return { x: progX, y: progY };
+  }
+
+  post() {
+    this.prevPosition = null;
+    this.needsAnim = false;
+  }
 
   instantRender() {
     this.html.style.left = this.position.x * (TILE_TOTAL) + "px";
@@ -145,7 +157,10 @@ export default class Tile {
   }
 
   setMergedFrom(tile, otherTile) {
-    if (this.mergedFrom.length > 2) { return; }
+    if (this.mergedFrom.length > 2) { 
+      console.error('mergedFrom array too large', this.mergedFrom.length);
+      return;
+    }
 
     this.mergedFrom.push(tile);
     this.mergedFrom.push(otherTile);
@@ -159,8 +174,15 @@ export default class Tile {
     return this.mergedFrom.length > 0;
   }
 
+  requestAnimation() {
+    this.needsAnim = true;
+  }
+
+  needsAnimation() {
+    return needsAnim;
+  }
+
   updatePosition(pos) {
-    console.log('update Position', this.position, pos)
     this.prevPosition = this.position;
     this.position = pos;
   }
