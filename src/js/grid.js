@@ -17,7 +17,6 @@ export default class Grid {
   constructor(size) {
     this.size = size;
     this.matrix = this.createMatrix();
-    console.log(this.matrix);
   }
 
   createMatrix() {
@@ -86,7 +85,7 @@ export default class Grid {
   }
 
   moveTile(tile, to) {
-    console.log('moveTile', tile.position, to)
+    tile.requestAnimation();
     let from = tile.position;
     this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
     this.removeTile(from.x, from.y);
