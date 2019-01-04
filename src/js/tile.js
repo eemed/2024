@@ -28,7 +28,7 @@ export class Position {
 export function getColor(value) {
   switch (value) {
     case 2:
-      return "#100e23"
+      return "#a6b3cc"
     case 4:
       return "#565575"
     case 8:
@@ -50,7 +50,7 @@ export function getColor(value) {
     case 2048:
       return "#65b2ff"
     default:
-      return "#a6b3cc"
+      return "#100e23"
   }
 }
 
