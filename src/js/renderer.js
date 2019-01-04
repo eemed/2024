@@ -19,6 +19,7 @@ export default class Renderer {
       if (tile && tile.needsAnimation) {
         if (tile.didMerge()) {
           this.animate({
+            pre: tile.preMerge,
             progress: tile.progressMerge,
             draw: tile.drawMerge,
             post: tile.postMerge,
@@ -26,6 +27,7 @@ export default class Renderer {
           });
         } else {
           this.animate({
+            pre: () => 0,
             progress: tile.progress,
             draw: tile.draw,
             post: tile.post,
@@ -36,9 +38,11 @@ export default class Renderer {
     }
   }
 
-  animate({progress, draw, post, duration}) {
+  animate({pre, progress, draw, post, duration}) {
 
     let start = performance.now();
+
+    pre();
 
     requestAnimationFrame(function animate(time) {
       // timeFraction goes from 0 to 1

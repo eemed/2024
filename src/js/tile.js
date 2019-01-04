@@ -68,6 +68,7 @@ export default class Tile {
     this.progress = this.progress.bind(this);
     this.post = this.post.bind(this);
 
+    this.preMerge = this.preMerge.bind(this);
     this.drawMerge = this.drawMerge.bind(this);
     this.progressMerge = this.progressMerge.bind(this);
     this.postMerge = this.postMerge.bind(this);
@@ -95,6 +96,24 @@ export default class Tile {
     this.mergedFrom = [];
   }
 
+  preMerge() {
+    let tile = this.mergedFrom[0];
+    let other = this.mergedFrom[1];
+
+
+    let prepare = (tile) => {
+      if (tile.prevPosition === null) {
+        tile.prevPosition = tile.position;
+        tile.position = new Position(this.position.x, this.position.y);
+      } else {
+        tile.position = new Position(this.position.x, this.position.y);
+      }
+    }
+
+    prepare(tile);
+    prepare(other);
+  }
+
   progressMerge(time) {
     let tile = this.mergedFrom[0];
     let other = this.mergedFrom[1];
@@ -108,26 +127,33 @@ export default class Tile {
     let other = this.mergedFrom[1];
 
     tile.draw(progress.tileProg);
-    tile.draw(progress.otherProg);
+    other.draw(progress.otherProg);
   }
 
   postMerge() {
     this.removeMerged();
     this.needsAnim = false;
+    this.html.style.background = getColor(this.value);
   }
 
 
   draw(progress) {
-    let x = this.prevPosition.x * TILE_TOTAL + progress.x;
-    let y = this.prevPosition.y * TILE_TOTAL + progress.y;
-    this.html.style.top = y + "px";
-    this.html.style.left = x + "px";
+    if (this.prevPosition) {
+      let x = this.prevPosition.x * TILE_TOTAL + progress.x;
+      let y = this.prevPosition.y * TILE_TOTAL + progress.y;
+      this.html.style.top = y + "px";
+      this.html.style.left = x + "px";
+    }
   }
 
   progress(time) {
-    let progX = (this.position.x - this.prevPosition.x) * TILE_TOTAL * time;
-    let progY = (this.position.y - this.prevPosition.y) * TILE_TOTAL * time;
-    return { x: progX, y: progY };
+    if (this.prevPosition) {
+      let progX = (this.position.x - this.prevPosition.x) * TILE_TOTAL * time;
+      let progY = (this.position.y - this.prevPosition.y) * TILE_TOTAL * time;
+      return { x: progX, y: progY };
+    } else {
+      return;
+    }
   }
 
   post() {
@@ -138,6 +164,7 @@ export default class Tile {
   instantRender() {
     this.html.style.left = this.position.x * (TILE_TOTAL) + "px";
     this.html.style.top  = this.position.y * (TILE_TOTAL) + "px";
+    this.html.style.background = getColor(this.value)
   }
 
   setHTMLValue() {
