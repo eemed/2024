@@ -85,7 +85,9 @@ export default class Grid {
     });
   }
 
-  moveTile(from, to) {
+  moveTile(tile, to) {
+    console.log('moveTile', tile.position, to)
+    let from = tile.position;
     this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
     this.removeTile(from.x, from.y);
     this.matrix[to.x][to.y].updatePosition(to);
