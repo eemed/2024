@@ -85,11 +85,13 @@ export default class Grid {
   }
 
   moveTile(tile, to) {
-    tile.requestAnimation();
+
     let from = tile.position;
     this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
     this.removeTile(from.x, from.y);
-    this.matrix[to.x][to.y].updatePosition(to);
+
+    tile.requestAnimation();
+    tile.updatePosition(new Position(to.x, to.y));
   }
 
   eachRow(callback) {
