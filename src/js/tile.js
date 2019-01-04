@@ -36,7 +36,7 @@ export function getColor(value) {
     case 16:
       return "#ff8080"
     case 32:
-      return "##95ffa4"
+      return "#95ffa4"
     case 64:
       return "#91ddff"
     case 128:
