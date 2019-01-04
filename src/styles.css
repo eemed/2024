@@ -54,14 +54,10 @@ body {
 .tile-area {
   border:         7px solid #FFA283;
   border-radius:  5px;
-  background:     #F4F2F0;
-  width:          433px;
-  height:         433px;
+  background:     #f0f0f0;
+  width:          428px;
+  height:         428px;
   position:       relative;
-}
-
-.game-row {
-  background: #F4f2f0;
 }
 
 .tile {
@@ -75,6 +71,22 @@ body {
   display:       grid;
   box-shadow:    3px 3px #999;
   position:      absolute;
+}
+
+.ghost-container {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
+.ghost-tile {
+  background:    #d0d0d0;
+  border-radius: 5px;
+  color:         white;
+  width:         90px;
+  height:        90px;
+  margin:        5px 8px 8px 5px;
+  display:       grid;
 }
 
 .value {
