@@ -68,7 +68,7 @@ export default class GameManager {
           lastTile = currentTile;
           if (currentTile.position.y !== availableY) {
             this.grid.moveTile(
-              currentTile.position,
+              currentTile,
               new Position(
                 currentTile.position.x,
                 availableY
@@ -100,7 +100,7 @@ export default class GameManager {
           lastTile = currentTile;
           if (currentTile.position.y !== availableY) {
             this.grid.moveTile(
-              currentTile.position,
+              currentTile,
               new Position(
                 currentTile.position.x,
                 availableY
@@ -132,7 +132,7 @@ export default class GameManager {
           lastTile = currentTile;
           if (currentTile.position.x !== availableX) {
             this.grid.moveTile(
-              currentTile.position,
+              currentTile,
               new Position(
                 availableX,
                 currentTile.position.y
@@ -164,7 +164,7 @@ export default class GameManager {
           lastTile = currentTile;
           if (currentTile.position.x !== availableX) {
             this.grid.moveTile(
-              currentTile.position,
+              currentTile,
               new Position(
                 availableX,
                 currentTile.position.y
@@ -186,6 +186,8 @@ export default class GameManager {
     const merged = new Tile(tile.position, mergeValue, this.gameAreaHTML)
     merged.setMergedFrom(tile, other);
     this.grid.insertTile(merged);
+
+    this.renderer.renderScore(this.score);
   }
 
   onRestart() {
