@@ -97,6 +97,9 @@ export default class Tile {
   }
 
   preMerge() {
+    // For fast players
+    if ( this.mergedFrom.length === 0 ) { return; }
+
     let tile = this.mergedFrom[0];
     let other = this.mergedFrom[1];
 
@@ -115,6 +118,9 @@ export default class Tile {
   }
 
   progressMerge(time) {
+    // For fast players
+    if ( this.mergedFrom.length === 0 ) { return; }
+
     let tile = this.mergedFrom[0];
     let other = this.mergedFrom[1];
     let tileProg = tile.progress(time);
@@ -123,6 +129,9 @@ export default class Tile {
   }
 
   drawMerge(progress) {
+    // For fast players
+    if ( this.mergedFrom.length === 0 ) { return; }
+
     let tile = this.mergedFrom[0];
     let other = this.mergedFrom[1];
 
@@ -131,9 +140,9 @@ export default class Tile {
   }
 
   postMerge() {
+    this.html.style.background = getColor(this.value);
     this.removeMerged();
     this.needsAnim = false;
-    this.html.style.background = getColor(this.value);
   }
 
 
@@ -163,7 +172,7 @@ export default class Tile {
 
   instantRender() {
     this.html.style.left = this.position.x * (TILE_TOTAL) + "px";
-    this.html.style.top  = this.position.y * (TILE_TOTAL) + "px";
+    this.html.style.top = this.position.y * (TILE_TOTAL) + "px";
     this.html.style.background = getColor(this.value)
   }
 
@@ -184,7 +193,7 @@ export default class Tile {
   }
 
   setMergedFrom(tile, otherTile) {
-    if (this.mergedFrom.length > 2) { 
+    if (this.mergedFrom.length > 2) {
       console.error('mergedFrom array too large', this.mergedFrom.length);
       return;
     }
