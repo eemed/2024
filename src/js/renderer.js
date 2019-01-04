@@ -6,19 +6,19 @@ const TILE_SIZE = 105;
 export default class Renderer {
   constructor(grid) {
     this.grid = grid;
-    this.scoreDisplay = document.querySelector('.score-display');
+    this.scoreDisplay = document.querySelector('#score-display');
+  }
+
+  renderScore(score) {
+    this.scoreDisplay.querySelector('#score').innerHTML = score;
   }
 
   render() {
-    let tiles = document.querySelectorAll('.tile');
-
-    let position = new Position(0, 0);
-
     for (let i = 0; i < this.grid.size ** 2; ++i) {
-      const gridTile = this.grid.getTile(i);
-      this.moveTile(gridTile);
-      this.setValue(gridTile);
-      this.setColor(gridTile);
+      let tile = this.grid.getTile(i);
+      if (tile) {
+        tile.render();
+      }
     }
   }
 
