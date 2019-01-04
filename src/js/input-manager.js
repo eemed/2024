@@ -6,7 +6,6 @@ export default class InputManager {
     this.events = {};
     this.onEvent.bind(this);
     this.addEventListeners();
-    console.log(this.events)
   }
 
   on(eventName, callback) {
