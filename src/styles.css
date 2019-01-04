@@ -54,10 +54,11 @@ body {
 .tile-area {
   border:         7px solid #FFA283;
   border-radius:  5px;
-  background:     #f0f0f0;
-  width:          428px;
-  height:         428px;
+  background:     #f1f1f1;
+  width:          438px;
+  height:         438px;
   position:       relative;
+  padding:        4px;
 }
 
 @keyframes popIn {
@@ -67,13 +68,12 @@ body {
 }
 
 .tile {
-  background:    #BBBBBB;
   border-radius: 5px;
   color:         white;
   width:         90px;
   height:        90px;
-  margin:        5px 8px 8px 5px;
   font-size:     25px;
+  margin:        7px;
   display:       grid;
   box-shadow:    3px 3px #999;
   position:      absolute;
@@ -88,12 +88,12 @@ body {
 }
 
 .ghost-tile {
-  background:    #d0d0d0;
+  background:    #cccccc;
   border-radius: 5px;
   color:         white;
   width:         90px;
   height:        90px;
-  margin:        5px 8px 8px 5px;
+  margin:        7px;
   display:       grid;
 }
 
