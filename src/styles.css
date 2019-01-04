@@ -60,6 +60,12 @@ body {
   position:       relative;
 }
 
+@keyframes popIn {
+  0% { transform:scale(0.4); }
+  75% { transform:scale(1.1); }
+  100% { transform:scale(1); }
+}
+
 .tile {
   background:    #BBBBBB;
   border-radius: 5px;
@@ -71,6 +77,8 @@ body {
   display:       grid;
   box-shadow:    3px 3px #999;
   position:      absolute;
+  animation-name: popIn;
+  animation-duration: 0.3s
 }
 
 .ghost-container {
