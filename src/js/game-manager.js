@@ -27,29 +27,33 @@ export default class GameManager {
    */
 
   onMove(direction) {
+    let moved = false;
 
     switch (direction) {
       case DIRECTION.UP:
-        this.moveUp();
+        moved = this.moveUp();
         break;
       case DIRECTION.DOWN:
-        this.moveDown();
+        moved = this.moveDown();
         break;
       case DIRECTION.LEFT:
-        this.moveLeft();
+        moved = this.moveLeft();
         break;
       case DIRECTION.RIGHT:
-        this.moveRight();
+        moved = this.moveRight();
         break;
       default:
         break;
     }
     this.renderer.render();
-    let time = setTimeout(this.addRandomTile, 100);
-
+    if (moved) {
+      setTimeout(this.addRandomTile, 100);
+    }
   }
 
   moveUp() {
+    let moved = false;
+
     this.grid.eachColumn(column => {
       if (!column) return;
 
@@ -63,10 +67,12 @@ export default class GameManager {
 
         if (lastTile && lastTile.value === currentTile.value) {
           this.merge(lastTile, currentTile);
+          moved = true;
           lastTile = null;
         } else {
           lastTile = currentTile;
           if (currentTile.position.y !== availableY) {
+            moved = true;
             this.grid.moveTile(
               currentTile,
               new Position(
@@ -79,9 +85,11 @@ export default class GameManager {
         }
       }
     });
+    return moved;
   }
 
   moveDown() {
+    let moved = false;
     this.grid.eachColumn(column => {
       if (!column) return;
 
@@ -95,10 +103,12 @@ export default class GameManager {
 
         if (lastTile && lastTile.value === currentTile.value) {
           this.merge(lastTile, currentTile);
+          moved = true;
           lastTile = null;
         } else {
           lastTile = currentTile;
           if (currentTile.position.y !== availableY) {
+            moved = true;
             this.grid.moveTile(
               currentTile,
               new Position(
@@ -111,9 +121,11 @@ export default class GameManager {
         }
       }
     });
+    return moved;
   }
 
   moveLeft() {
+    let moved = false;
     this.grid.eachRow(row => {
       if (!row) return;
 
@@ -127,10 +139,12 @@ export default class GameManager {
 
         if (lastTile && lastTile.value === currentTile.value) {
           this.merge(lastTile, currentTile);
+          moved = true;
           lastTile = null;
         } else {
           lastTile = currentTile;
           if (currentTile.position.x !== availableX) {
+            moved = true;
             this.grid.moveTile(
               currentTile,
               new Position(
@@ -143,9 +157,11 @@ export default class GameManager {
         }
       }
     });
+    return moved;
   }
 
   moveRight() {
+    let moved = false;
     this.grid.eachRow(row => {
       if (!row) return;
 
@@ -159,10 +175,12 @@ export default class GameManager {
 
         if (lastTile && lastTile.value === currentTile.value) {
           this.merge(lastTile, currentTile);
+          moved = true;
           lastTile = null;
         } else {
           lastTile = currentTile;
           if (currentTile.position.x !== availableX) {
+            moved = true;
             this.grid.moveTile(
               currentTile,
               new Position(
@@ -175,6 +193,7 @@ export default class GameManager {
         }
       }
     });
+    return moved;
   }
 
   merge(tile, other) {
