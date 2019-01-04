@@ -136,10 +136,6 @@ export default class Grid {
     return this.unusedTiles().length === 0;
   }
 
-  isTile(pos) {
-    return this.matrix[pos.x][pos.y] !== null;
-  }
-
   getRandomUnusedTile() {
     const unusedPositions = this.unusedTiles();
     return unusedPositions[Math.floor(Math.random() * unusedPositions.length)];

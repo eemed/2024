@@ -9,20 +9,6 @@ export class Position {
     this.x = x;
     this.y = y;
   }
-
-  serialize() {
-    return { x: this.x, y: this.y };
-  }
-
-  clone() {
-    return new Position(this.x, this.y);
-  }
-
-  multiply(multiplier) {
-    this.x *= multiplier;
-    this.y *= multiplier;
-    return this;
-  }
 }
 
 export function getColor(value) {
@@ -178,18 +164,6 @@ export default class Tile {
 
   setHTMLValue() {
     this.html.querySelector('.value').innerHTML = this.value;
-  }
-
-  isWinner() {
-    return this.value >= 2048;
-  }
-
-  serialize() {
-    return {
-      position: this.position.serialize(),
-      prevPosition: this.prevPosition.serialize(),
-      value: this.value,
-    };
   }
 
   setMergedFrom(tile, otherTile) {

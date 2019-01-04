@@ -1,8 +1,3 @@
-import { getColor, Position } from './tile';
-
-const CSS_TILE_CLASS = "tile";
-const TILE_SIZE = 105;
-
 export default class Renderer {
   constructor(grid) {
     this.grid = grid;
@@ -63,24 +58,5 @@ export default class Renderer {
       }
 
     });
-  }
-
-  setValue(gridTile) {
-      if (gridTile) {
-        gridTile.html.querySelector('value').innerHTML = value;
-      }
-  }
-
-  setColor(htmlTile, gridTile) {
-      if (gridTile) {
-        const color = getColor(gridTile.value);
-        gridTile.html.style.background = color;
-      } 
-  }
-
-  moveTile(htmlTile, gridTile) {
-    if (gridTile && gridTile.prevPosition !== null) {
-      this.animate(htmlTile, gridTile)
-    }
   }
 }
