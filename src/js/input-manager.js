@@ -39,8 +39,3 @@ export default class InputManager {
     document.addEventListener('keydown', (e) => this.onEvent(e, this.events));
   }
 }
-
-// Javascript keycode for l: 76
-// Javascript keycode for k: 75
-// Javascript keycode for j: 74
-// Javascript keycode for h: 72
