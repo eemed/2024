@@ -3,11 +3,13 @@ import Tile, { Position } from './tile';
 import Renderer from './renderer';
 import InputManager, { EVENTS } from './input-manager';
 
+const GAME_STATE = { LOST: 0, WON: 1, INPROGRESS: 2 };
+
 export default class GameManager {
-  constructor(size, gameArea) {
+  constructor(size) {
     this.score = 0;
     this.grid = new Grid(size);
-    this.won = false;
+    this.state = GAME_STATE.INPROGRESS;
     this.inputManager = new InputManager();
     this.renderer = new Renderer(this.grid);
     this.gameAreaHTML = document.querySelector('div.tile-area');
@@ -198,7 +200,7 @@ export default class GameManager {
 
   merge(tile, other) {
     const mergeValue = tile.value * 2;
-    if (mergeValue === 2048) { this.won = true };
+    if (mergeValue === 2048) { this.state = GAME_STATE.WON };
     this.score += mergeValue;
 
     this.grid.removeTile(tile.position.x, tile.position.y);
@@ -224,6 +226,8 @@ export default class GameManager {
         this.gameAreaHTML
       );
       this.grid.insertTile(tile);
+    } else {
+      this.state = GAME_STATE.LOST;
     }
   }
 }
