@@ -16,10 +16,49 @@ export default class Renderer {
   render() {
     for (let i = 0; i < this.grid.size ** 2; ++i) {
       let tile = this.grid.getTile(i);
-      if (tile) {
-        tile.render();
+      if (tile && tile.needsAnimation) {
+        if (tile.didMerge()) {
+          this.animate({
+            progress: tile.progressMerge,
+            draw: tile.drawMerge,
+            post: tile.postMerge,
+            duration: 150,
+          });
+        } else {
+          this.animate({
+            progress: tile.progress,
+            draw: tile.draw,
+            post: tile.post,
+            duration: 150,
+          });
+        }
       }
     }
+  }
+
+  animate({progress, draw, post, duration}) {
+
+    let start = performance.now();
+
+    requestAnimationFrame(function animate(time) {
+      // timeFraction goes from 0 to 1
+      let timeFraction = (time - start) / duration;
+      if (timeFraction > 1) timeFraction = 1;
+
+      // calculate the current animation state
+      let progressData = progress(timeFraction)
+
+      draw(progressData); // draw it
+
+      if (timeFraction === 1) {
+        post();
+      }
+
+      if (timeFraction < 1) {
+        requestAnimationFrame(animate);
+      }
+
+    });
   }
 
   setValue(gridTile) {
@@ -38,34 +77,6 @@ export default class Renderer {
   moveTile(htmlTile, gridTile) {
     if (gridTile && gridTile.prevPosition !== null) {
       this.animate(htmlTile, gridTile)
-    }
-  }
-
-  animate(htmlTile, gridTile) {
-    if (!gridTile.prevPosition) { return; }
-
-    let positionCopy = {};
-    Object.assign(positionCopy, gridTile.position);
-
-    let id = setInterval(frame, 5);
-
-    let currentPos = gridTile.prevPosition;
-
-    function frame() {
-      if (currentPos.x === positionCopy.x && currentPos.y === positionCopy.y) {
-        clearInterval(id);
-      } else if (currentPos.x > positionCopy.x) {
-        currentPos.x -= 1;
-      } else if (currentPos.x < positionCopy.x) {
-        currentPos.x += 1;
-      } else if (currentPos.y > positionCopy.y) {
-        currentPos.x -= 1;
-      } else if (currentPos.y < positionCopy.y) {
-        currentPos.y += 1;
-      }
-
-      htmlTile.style.top = currentPos.y + "px";
-      htmlTile.style.left = currentPos.x + "px";
     }
   }
 }
