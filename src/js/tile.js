@@ -88,7 +88,13 @@ export default class Tile {
 
         this.animate();
       }
+    } else if (this.mergedFrom.length > 0) {
+      this.animateMerge();
     }
+  }
+
+  animateMerge() {
+    console.log('merge Anim');
   }
 
   animate() {
