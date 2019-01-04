@@ -11,6 +11,7 @@ export default class GameManager {
     this.inputManager = new InputManager();
     this.renderer = new Renderer(this.grid);
     this.gameAreaHTML = document.querySelector('div.tile-area');
+    this.addRandomTile = this.addRandomTile.bind(this);
 
     // Pass in methods from this class
     this.inputManager.on(EVENTS.MOVE, this.onMove.bind(this));
@@ -18,7 +19,6 @@ export default class GameManager {
 
     this.addRandomTile();
     this.addRandomTile();
-
   }
 
   /**
@@ -44,8 +44,8 @@ export default class GameManager {
       default:
         break;
     }
-    this.addRandomTile();
     this.renderer.render();
+    let time = setTimeout(this.addRandomTile, 100);
 
   }
 
