@@ -1,7 +1,8 @@
 const CSS_TILE_CLASS = 'tile';
 const CSS_VALUE_CLASS = 'value';
 const TILE_SIZE = 90;
-const TILE_GAP = 10;
+const TILE_GAP = 14; // 2 * 7 the margin of the tiles
+const TILE_AREA_PADDING = 4
 const TILE_TOTAL = TILE_SIZE + TILE_GAP;
 
 export class Position {
@@ -134,8 +135,8 @@ export default class Tile {
 
   draw(progress) {
     if (this.prevPosition) {
-      let x = this.prevPosition.x * TILE_TOTAL + progress.x;
-      let y = this.prevPosition.y * TILE_TOTAL + progress.y;
+      let x = this.toPixels(this.prevPosition.x) + progress.x;
+      let y = this.toPixels(this.prevPosition.y) + progress.y;
       this.html.style.top = y + "px";
       this.html.style.left = x + "px";
     }
@@ -156,9 +157,13 @@ export default class Tile {
     this.needsAnim = false;
   }
 
+  toPixels(coord) {
+    return coord * TILE_TOTAL + TILE_AREA_PADDING;
+  }
+
   instantRender() {
-    this.html.style.left = this.position.x * (TILE_TOTAL) + "px";
-    this.html.style.top = this.position.y * (TILE_TOTAL) + "px";
+    this.html.style.left = this.toPixels(this.position.x) + "px";
+    this.html.style.top = this.toPixels(this.position.y) + "px";
     this.html.style.background = getColor(this.value)
   }
 
