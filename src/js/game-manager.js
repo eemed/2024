@@ -3,24 +3,28 @@ import Tile, { Position } from './tile';
 import Renderer from './renderer';
 import InputManager, { EVENTS } from './input-manager';
 
-const GAME_STATE = { LOST: 0, WON: 1, INPROGRESS: 2 };
+const STATE = { INPROGRESS: 2, INMENU: 3 };
+const GAME_STATE = { LOST: 0, WON: 1, NEUTRAL: 2 }
 
 export default class GameManager {
   constructor(size) {
     this.score = 0;
     this.grid = new Grid(size);
-    this.state = GAME_STATE.INPROGRESS;
+    this.state = STATE.INMENU;
+    this.gameState = GAME_STATE.NEUTRAL;
     this.inputManager = new InputManager();
     this.renderer = new Renderer(this.grid);
     this.gameAreaHTML = document.querySelector('div.tile-area');
     this.addRandomTile = this.addRandomTile.bind(this);
 
     // Pass in methods from this class
-    this.inputManager.on(EVENTS.MOVE, this.onMove.bind(this));
-    this.inputManager.on(EVENTS.RESTART, this.onRestart.bind(this));
+    this.onRestart = this.onRestart.bind(this);
+    this.onMove = this.onMove.bind(this);
 
-    this.addRandomTile();
-    this.addRandomTile();
+    this.inputManager.on(EVENTS.MOVE, this.onMove);
+    this.inputManager.on(EVENTS.RESTART, this.onRestart);
+    this.inputManager.onClick('#restart-button', this.onRestart);
+    this.startGame();
   }
 
   /**
@@ -29,6 +33,7 @@ export default class GameManager {
    */
 
   onMove(direction) {
+    if (this.state === STATE.INMENU) { return; }
     let moved = false;
 
     switch (direction) {
@@ -200,7 +205,7 @@ export default class GameManager {
 
   merge(tile, other) {
     const mergeValue = tile.value * 2;
-    if (mergeValue === 2048) { this.state = GAME_STATE.WON };
+    if (mergeValue === 2048) { this.gameState = GAME_STATE.WON };
     this.score += mergeValue;
 
     this.grid.removeTile(tile.position.x, tile.position.y);
@@ -223,8 +228,13 @@ export default class GameManager {
       this.grid.removeTile(x, y);
     });
 
+    this.startGame();
+  }
+
+  startGame() {
     // Start a new game
-    this.state = GAME_STATE.INPROGRESS;
+    this.gameState = GAME_STATE.NEUTRAL;
+    this.state = STATE.INPROGRESS;
     this.score = 0;
     this.renderer.renderScore(this.score);
     this.addRandomTile();
@@ -262,8 +272,7 @@ export default class GameManager {
     });
 
     if (isLost) {
-      this.state = GAME_STATE.LOST;
-      console.log('lost')
+      this.gameState = GAME_STATE.LOST;
     }
   }
 }
