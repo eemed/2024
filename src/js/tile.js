@@ -1,8 +1,8 @@
 const CSS_TILE_CLASS = 'tile';
 const CSS_VALUE_CLASS = 'value';
 const TILE_SIZE = 90;
-const TILE_GAP = 14; // 2 * 7 the margin of the tiles
-const TILE_AREA_PADDING = 4
+const TILE_GAP = 16; // 2 * 8
+const TILE_AREA_PADDING = 7
 const TILE_TOTAL = TILE_SIZE + TILE_GAP;
 
 export class Position {
@@ -144,8 +144,14 @@ export default class Tile {
 
   progress(time) {
     if (this.prevPosition) {
-      let progX = (this.position.x - this.prevPosition.x) * TILE_TOTAL * time;
-      let progY = (this.position.y - this.prevPosition.y) * TILE_TOTAL * time;
+      let progX = Math.round(
+        (this.position.x - this.prevPosition.x) * TILE_TOTAL * time
+      );
+
+      let progY = Math.round(
+        (this.position.y - this.prevPosition.y) * TILE_TOTAL * time
+      );
+
       return { x: progX, y: progY };
     } else {
       return;
