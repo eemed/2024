@@ -215,6 +215,14 @@ export default class GameManager {
   }
 
   onRestart() {
+    this.grid.reset();
+
+    // Start a new game
+    this.state = GAME_STATE.INPROGRESS;
+    this.score = 0;
+    this.renderer.renderScore(this.score);
+    this.addRandomTile();
+    this.addRandomTile();
   }
 
   addRandomTile() {

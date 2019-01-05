@@ -150,4 +150,14 @@ export default class Grid {
     });
     return positions;
   }
+
+  reset() {
+    this.eachTile((x, y, tile) => {
+      if (!tile) { return; }
+      tile.removeHTML();
+      // We can use this because eachTile functions this is this grid
+      // otherwise we should use a local variable
+      this.removeTile(x, y);
+    });
+  }
 }

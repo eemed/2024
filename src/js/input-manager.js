@@ -30,6 +30,9 @@ export default class InputManager {
       case 'a':
         events[EVENTS.MOVE](DIRECTION.LEFT);
         break;
+      case 'r':
+        events[EVENTS.RESTART]();
+        break;
       default:
         break;
     }

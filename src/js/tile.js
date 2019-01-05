@@ -167,8 +167,8 @@ export default class Tile {
     this.html.style.background = getColor(this.value)
   }
 
-  setHTMLValue() {
-    this.html.querySelector('.value').innerHTML = this.value;
+  removeHTML() {
+    this.parent.removeChild(this.html);
   }
 
   setMergedFrom(tile, otherTile) {
