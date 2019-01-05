@@ -215,7 +215,13 @@ export default class GameManager {
   }
 
   onRestart() {
-    this.grid.reset();
+    // Arrowfunction takes this from here
+    this.grid.eachTile((x, y, tile) => {
+      if (!tile) { return; }
+      tile.removeHTML();
+
+      this.grid.removeTile(x, y);
+    });
 
     // Start a new game
     this.state = GAME_STATE.INPROGRESS;
@@ -234,8 +240,30 @@ export default class GameManager {
         this.gameAreaHTML
       );
       this.grid.insertTile(tile);
-    } else {
+
+      this.checkMovement()
+    }
+  }
+
+  checkMovement() {
+    if (!this.grid.isFull()) { return; }
+
+    let isLost = true;
+
+    this.grid.eachTile((x, y, tile) => {
+      if (!isLost) { return; }
+      let adjacentTiles = this.grid.getAdjacentTiles(tile);
+      for (let i = 0; i < adjacentTiles.length; ++i) {
+        if (adjacentTiles[i].value === tile.value) {
+          isLost = false;
+          break;
+        }
+      }
+    });
+
+    if (isLost) {
       this.state = GAME_STATE.LOST;
+      console.log('lost')
     }
   }
 }

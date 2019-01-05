@@ -151,13 +151,29 @@ export default class Grid {
     return positions;
   }
 
-  reset() {
-    this.eachTile((x, y, tile) => {
-      if (!tile) { return; }
-      tile.removeHTML();
-      // We can use this because eachTile functions this is this grid
-      // otherwise we should use a local variable
-      this.removeTile(x, y);
-    });
+  getAdjacentTiles(tile) {
+    let tiles = [];
+    let adj = null;
+
+    if (tile.position.x > 0) {
+      adj = this.matrix[tile.position.x - 1][tile.position.y];
+      if (adj) { tiles.push(adj); }
+    }
+
+    if (tile.position.x < this.size - 1) {
+      adj = this.matrix[tile.position.x + 1][tile.position.y];
+      if (adj) { tiles.push(adj); }
+    }
+
+    if (tile.position.y > 0) {
+      adj = this.matrix[tile.position.x][tile.position.y - 1];
+      if (adj) { tiles.push(adj); }
+    }
+
+    if (tile.position.y < this.size - 1) {
+      adj = this.matrix[tile.position.x][tile.position.y + 1];
+      if (adj) { tiles.push(adj); }
+    }
+    return tiles;
   }
 }
