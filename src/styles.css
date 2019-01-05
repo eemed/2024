@@ -33,10 +33,39 @@ body {
 }
 
 #score-display {
-  text-align:     center;
   font-size:      25px;
   padding-bottom: 20px;
+  display:        flex;
+  width: 100%;
+  justify-content: space-between;
 }
+
+#score-text {
+  background: #aaaaaa;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#score {
+  text-align:center;
+}
+
+/* Disable dotted borders in FF */
+:focus { outline:none; }
+::-moz-focus-inner { border:0; }
+
+#restart-button {
+  background: #aaaaaa;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 25px;
+  padding: 10px;
+}
+
 
 .game-area {
   display:        flex;
@@ -100,3 +129,5 @@ body {
 .value {
   margin: auto;
 }
+
+
