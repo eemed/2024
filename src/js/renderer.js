@@ -1,11 +1,18 @@
+const SCORE_DISPLAY_ID = "score-display";
+const TILE_AREA_CLASS = "tile-area";
+const SCORE_ID = "score";
+const SPLASH_OPACITY = 0.8;
+const SPLASH_CSS_CLASS = "splash";
+
 export default class Renderer {
   constructor(grid) {
     this.grid = grid;
-    this.scoreDisplay = document.querySelector('#score-display');
+    this.scoreDisplay = document.querySelector('#' + SCORE_DISPLAY_ID);
+    this.tileArea = document.querySelector('.' + TILE_AREA_CLASS)
   }
 
   renderScore(score) {
-    this.scoreDisplay.querySelector('#score').innerHTML = score;
+    this.scoreDisplay.querySelector('#' + SCORE_ID).innerHTML = score;
   }
 
   render() {
@@ -31,6 +38,45 @@ export default class Renderer {
         }
       }
     }
+  }
+
+  renderSplash(element) {
+    let div = document.createElement('div');
+    div.className = SPLASH_CSS_CLASS;
+
+    div.appendChild(element);
+
+    this.tileArea.appendChild(div);
+  }
+
+  removeSplashes() {
+    let splashes = document.querySelectorAll('.' + SPLASH_CSS_CLASS);
+    splashes.forEach(splash => { 
+
+      function progress(time) {
+        if (SPLASH_OPACITY - time <  0) {
+          return 0;
+        }
+        return (SPLASH_OPACITY - time).toFixed(2);
+      }
+
+      function draw(prog) {
+        splash.style.opacity = prog;
+      }
+
+      function post() {
+        splash.remove();
+      }
+
+      this.animate({
+        pre: () => 0,
+        post: post,
+        progress: progress,
+        draw: draw,
+        duration: 200
+      });
+    });
+
   }
 
   animate({pre, progress, draw, post, duration}) {
