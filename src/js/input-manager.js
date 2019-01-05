@@ -12,6 +12,12 @@ export default class InputManager {
     this.events[eventName] = callback;
   }
 
+  onClick(query, callback) {
+    let elem = document.querySelector(query)
+    if (!elem) { return; }
+    elem.addEventListener('click', callback)
+  }
+
   onEvent(event, events) {
     switch (event.key) {
       case 'ArrowUp':
