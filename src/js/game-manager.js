@@ -5,6 +5,8 @@ import InputManager, { EVENTS } from './input-manager';
 
 const STATE = { INPROGRESS: 2, INMENU: 3 };
 const GAME_STATE = { LOST: 0, WON: 1, NEUTRAL: 2 }
+const MESSAGES = { LOSE: "Game Over!" };
+const SPLASH_TEXT_CSS_CLASS = "splash-text";
 
 export default class GameManager {
   constructor(size) {
@@ -24,6 +26,7 @@ export default class GameManager {
     this.inputManager.on(EVENTS.MOVE, this.onMove);
     this.inputManager.on(EVENTS.RESTART, this.onRestart);
     this.inputManager.onClick('#restart-button', this.onRestart);
+
     this.startGame();
   }
 
@@ -220,6 +223,8 @@ export default class GameManager {
   }
 
   onRestart() {
+    this.renderer.removeSplashes();
+
     // Arrowfunction takes this from here
     this.grid.eachTile((x, y, tile) => {
       if (!tile) { return; }
@@ -272,7 +277,23 @@ export default class GameManager {
     });
 
     if (isLost) {
-      this.gameState = GAME_STATE.LOST;
+      this.renderLose();
     }
+  }
+
+  continueGame() {
+    this.renderer.removeSplashes();
+    this.state = STATE.NEUTRAL;
+  }
+
+  renderLose() {
+    this.gameState = GAME_STATE.LOST;
+    this.state = STATE.INMENU;
+
+    let p = document.createElement('p');
+    p.className = SPLASH_TEXT_CSS_CLASS;
+    p.innerHTML = MESSAGES.LOSE;
+
+    this.renderer.renderSplash(p);
   }
 }
