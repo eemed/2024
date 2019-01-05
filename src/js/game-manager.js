@@ -6,7 +6,7 @@ import InputManager, { EVENTS } from './input-manager';
 const STATE = { INPROGRESS: 2, INMENU: 3 };
 const GAME_STATE = { LOST: 0, WON: 1, NEUTRAL: 2 }
 const MESSAGES = { LOSE: "Game Over!" };
-const SPLASH_TEXT_CSS_CLASS = "splash-text";
+const MENU_TEXT_CSS_CLASS = "menu-text";
 
 export default class GameManager {
   constructor(size) {
@@ -223,7 +223,7 @@ export default class GameManager {
   }
 
   onRestart() {
-    this.renderer.removeSplashes();
+    this.renderer.removeMenus();
 
     // Arrowfunction takes this from here
     this.grid.eachTile((x, y, tile) => {
@@ -282,7 +282,7 @@ export default class GameManager {
   }
 
   continueGame() {
-    this.renderer.removeSplashes();
+    this.renderer.removeMenus();
     this.state = STATE.NEUTRAL;
   }
 
@@ -291,9 +291,9 @@ export default class GameManager {
     this.state = STATE.INMENU;
 
     let p = document.createElement('p');
-    p.className = SPLASH_TEXT_CSS_CLASS;
+    p.className = MENU_TEXT_CSS_CLASS;
     p.innerHTML = MESSAGES.LOSE;
 
-    this.renderer.renderSplash(p);
+    this.renderer.renderMenu(p);
   }
 }

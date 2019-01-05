@@ -1,8 +1,8 @@
 const SCORE_DISPLAY_ID = "score-display";
 const TILE_AREA_CLASS = "tile-area";
 const SCORE_ID = "score";
-const SPLASH_OPACITY = 0.8;
-const SPLASH_CSS_CLASS = "splash";
+const MENU_OPACITY = 0.8;
+const MENU_CSS_CLASS = "menu";
 
 export default class Renderer {
   constructor(grid) {
@@ -40,32 +40,32 @@ export default class Renderer {
     }
   }
 
-  renderSplash(element) {
+  renderMenu(element) {
     let div = document.createElement('div');
-    div.className = SPLASH_CSS_CLASS;
+    div.className = MENU_CSS_CLASS;
 
     div.appendChild(element);
 
     this.tileArea.appendChild(div);
   }
 
-  removeSplashes() {
-    let splashes = document.querySelectorAll('.' + SPLASH_CSS_CLASS);
-    splashes.forEach(splash => { 
+  removeMenus() {
+    let menus = document.querySelectorAll('.' + MENU_CSS_CLASS);
+    menus.forEach(menu => { 
 
       function progress(time) {
-        if (SPLASH_OPACITY - time <  0) {
+        if (MENU_OPACITY - time <  0) {
           return 0;
         }
-        return (SPLASH_OPACITY - time).toFixed(2);
+        return (MENU_OPACITY - time).toFixed(2);
       }
 
       function draw(prog) {
-        splash.style.opacity = prog;
+        menu.style.opacity = prog;
       }
 
       function post() {
-        splash.remove();
+        menu.remove();
       }
 
       this.animate({
