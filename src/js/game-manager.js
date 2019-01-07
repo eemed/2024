@@ -4,10 +4,10 @@ import Renderer from './renderer';
 import InputManager, { EVENTS } from './input-manager';
 
 const STATE = { INPROGRESS: 2, INMENU: 3 };
-const GAME_STATE = { LOST: 0, WON: 1, NEUTRAL: 2 }
-const MESSAGES = { LOSE: "Game Over!", PLAY_AGAIN: "Play again?" };
-const MENU_TEXT_CSS_CLASS = "menu-text";
-const MENU_BUTTON_CSS_CLASS = "menu-button";
+const GAME_STATE = { LOST: 0, WON: 1, NEUTRAL: 2 };
+const MESSAGES = { LOSE: 'Game Over!', PLAY_AGAIN: 'Play again?' };
+const MENU_TEXT_CSS_CLASS = 'menu-text';
+const MENU_BUTTON_CSS_CLASS = 'menu-button';
 
 export default class GameManager {
   constructor(size) {
@@ -66,34 +66,34 @@ export default class GameManager {
   moveUp() {
     let moved = false;
 
-    this.grid.eachColumn(column => {
+    this.grid.eachColumn((column) => {
       if (!column) return;
 
       let availableY = 0;
       let lastTile = null;
 
       for (let i = 0; i < this.grid.size; i += 1) {
-        if (!column[i]) continue;
+        if (column[i]) {
+          const currentTile = column[i];
 
-        const currentTile = column[i];
-
-        if (lastTile && lastTile.value === currentTile.value) {
-          this.merge(lastTile, currentTile);
-          moved = true;
-          lastTile = null;
-        } else {
-          lastTile = currentTile;
-          if (currentTile.position.y !== availableY) {
+          if (lastTile && lastTile.value === currentTile.value) {
+            this.merge(lastTile, currentTile);
             moved = true;
-            this.grid.moveTile(
-              currentTile,
-              new Position(
-                currentTile.position.x,
-                availableY
-              )
-            );
+            lastTile = null;
+          } else {
+            lastTile = currentTile;
+            if (currentTile.position.y !== availableY) {
+              moved = true;
+              this.grid.moveTile(
+                currentTile,
+                new Position(
+                  currentTile.position.x,
+                  availableY,
+                ),
+              );
+            }
+            availableY += 1;
           }
-          availableY += 1;
         }
       }
     });
@@ -102,34 +102,34 @@ export default class GameManager {
 
   moveDown() {
     let moved = false;
-    this.grid.eachColumn(column => {
+    this.grid.eachColumn((column) => {
       if (!column) return;
 
       let availableY = this.grid.size - 1;
       let lastTile = null;
 
       for (let i = this.grid.size - 1; i >= 0; i -= 1) {
-        if (!column[i]) continue;
+        if (column[i]) {
+          const currentTile = column[i];
 
-        const currentTile = column[i];
-
-        if (lastTile && lastTile.value === currentTile.value) {
-          this.merge(lastTile, currentTile);
-          moved = true;
-          lastTile = null;
-        } else {
-          lastTile = currentTile;
-          if (currentTile.position.y !== availableY) {
+          if (lastTile && lastTile.value === currentTile.value) {
+            this.merge(lastTile, currentTile);
             moved = true;
-            this.grid.moveTile(
-              currentTile,
-              new Position(
-                currentTile.position.x,
-                availableY
-              )
-            );
+            lastTile = null;
+          } else {
+            lastTile = currentTile;
+            if (currentTile.position.y !== availableY) {
+              moved = true;
+              this.grid.moveTile(
+                currentTile,
+                new Position(
+                  currentTile.position.x,
+                  availableY,
+                ),
+              );
+            }
+            availableY -= 1;
           }
-          availableY -= 1;
         }
       }
     });
@@ -138,34 +138,34 @@ export default class GameManager {
 
   moveLeft() {
     let moved = false;
-    this.grid.eachRow(row => {
+    this.grid.eachRow((row) => {
       if (!row) return;
 
       let availableX = 0;
       let lastTile = null;
 
       for (let i = 0; i < this.grid.size; i += 1) {
-        if (!row[i]) continue;
+        if (row[i]) {
+          const currentTile = row[i];
 
-        const currentTile = row[i];
-
-        if (lastTile && lastTile.value === currentTile.value) {
-          this.merge(lastTile, currentTile);
-          moved = true;
-          lastTile = null;
-        } else {
-          lastTile = currentTile;
-          if (currentTile.position.x !== availableX) {
+          if (lastTile && lastTile.value === currentTile.value) {
+            this.merge(lastTile, currentTile);
             moved = true;
-            this.grid.moveTile(
-              currentTile,
-              new Position(
-                availableX,
-                currentTile.position.y
-              )
-            );
+            lastTile = null;
+          } else {
+            lastTile = currentTile;
+            if (currentTile.position.x !== availableX) {
+              moved = true;
+              this.grid.moveTile(
+                currentTile,
+                new Position(
+                  availableX,
+                  currentTile.position.y,
+                ),
+              );
+            }
+            availableX += 1;
           }
-          availableX += 1;
         }
       }
     });
@@ -174,34 +174,34 @@ export default class GameManager {
 
   moveRight() {
     let moved = false;
-    this.grid.eachRow(row => {
+    this.grid.eachRow((row) => {
       if (!row) return;
 
       let availableX = this.grid.size - 1;
       let lastTile = null;
 
       for (let i = this.grid.size - 1; i >= 0; i -= 1) {
-        if (!row[i]) continue;
+        if (row[i]) {
+          const currentTile = row[i];
 
-        const currentTile = row[i];
-
-        if (lastTile && lastTile.value === currentTile.value) {
-          this.merge(lastTile, currentTile);
-          moved = true;
-          lastTile = null;
-        } else {
-          lastTile = currentTile;
-          if (currentTile.position.x !== availableX) {
+          if (lastTile && lastTile.value === currentTile.value) {
+            this.merge(lastTile, currentTile);
             moved = true;
-            this.grid.moveTile(
-              currentTile,
-              new Position(
-                availableX,
-                currentTile.position.y
-              )
-            );
+            lastTile = null;
+          } else {
+            lastTile = currentTile;
+            if (currentTile.position.x !== availableX) {
+              moved = true;
+              this.grid.moveTile(
+                currentTile,
+                new Position(
+                  availableX,
+                  currentTile.position.y,
+                ),
+              );
+            }
+            availableX -= 1;
           }
-          availableX -= 1;
         }
       }
     });
@@ -210,13 +210,13 @@ export default class GameManager {
 
   merge(tile, other) {
     const mergeValue = tile.value * 2;
-    if (mergeValue === 2048) { this.gameState = GAME_STATE.WON };
+    if (mergeValue === 2048) { this.gameState = GAME_STATE.WON; }
     this.score += mergeValue;
 
     this.grid.removeTile(tile.position.x, tile.position.y);
     this.grid.removeTile(other.position.x, other.position.y);
 
-    const merged = new Tile(tile.position, mergeValue, this.gameAreaHTML)
+    const merged = new Tile(tile.position, mergeValue, this.gameAreaHTML);
     merged.setMergedFrom(tile, other);
     merged.requestAnimation();
     this.grid.insertTile(merged);
@@ -250,15 +250,15 @@ export default class GameManager {
 
   addRandomTile() {
     if (!this.grid.isFull()) {
-      let value = Math.random() < 0.9 ? 2 : 4;
-      let tile = new Tile(
+      const value = Math.random() < 0.9 ? 2 : 4;
+      const tile = new Tile(
         this.grid.getRandomUnusedTile(),
         value,
-        this.gameAreaHTML
+        this.gameAreaHTML,
       );
       this.grid.insertTile(tile);
 
-      this.checkMovement()
+      this.checkMovement();
     }
   }
 
@@ -269,8 +269,8 @@ export default class GameManager {
 
     this.grid.eachTile((x, y, tile) => {
       if (!isLost) { return; }
-      let adjacentTiles = this.grid.getAdjacentTiles(tile);
-      for (let i = 0; i < adjacentTiles.length; ++i) {
+      const adjacentTiles = this.grid.getAdjacentTiles(tile);
+      for (let i = 0; i < adjacentTiles.length; i += 1) {
         if (adjacentTiles[i].value === tile.value) {
           isLost = false;
           break;
@@ -292,16 +292,16 @@ export default class GameManager {
     this.gameState = GAME_STATE.LOST;
     this.state = STATE.INMENU;
 
-    let div = document.createElement('div');
-    div.style.display = "flex";
-    div.style.flexDirection = "column";
-    div.style.justifyContent = "center";
+    const div = document.createElement('div');
+    div.style.display = 'flex';
+    div.style.flexDirection = 'column';
+    div.style.justifyContent = 'center';
 
-    let p = document.createElement('p');
+    const p = document.createElement('p');
     p.className = MENU_TEXT_CSS_CLASS;
     p.innerHTML = MESSAGES.LOSE;
 
-    let button = document.createElement('button');
+    const button = document.createElement('button');
     button.className = MENU_BUTTON_CSS_CLASS;
     button.innerHTML = MESSAGES.PLAY_AGAIN;
 
@@ -310,6 +310,6 @@ export default class GameManager {
 
     this.renderer.renderMenu(div);
 
-    this.inputManager.onClick(".menu-button", this.onRestart);
+    this.inputManager.onClick('.menu-button', this.onRestart);
   }
 }
