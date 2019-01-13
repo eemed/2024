@@ -4,7 +4,7 @@
   "description": "Web implementation of 2048 in pure html, css and javascript.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "parcel build src/index.html -d public --no-cache",
     "dev": "parcel serve src/index.html -d public --no-cache"
   },
@@ -19,11 +19,18 @@
   },
   "homepage": "https://github.com/eemed/2048#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.7.0",
     "eslint": "^5.12.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0"
   },
   "dependencies": {
     "parcel": "^1.10.3"
+  },
+  "jest": {
+    "roots": [
+      "src/js/__tests__"
+    ]
   }
 }

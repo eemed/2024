@@ -51,8 +51,8 @@ export default class Tile {
     this.prevPosition = null;
     this.value = value;
     this.mergedFrom = [];
-    this.html = this.createHTMLTile(parentElement);
     this.parent = parentElement;
+    this.html = this.createHTMLTile(this.parent);
     this.needsAnim = false;
 
     this.draw = this.draw.bind(this);
@@ -67,7 +67,7 @@ export default class Tile {
     this.instantRender();
   }
 
-  createHTMLTile(parentElement) {
+  createHTMLTile() {
     const tile = document.createElement('div');
     tile.className = CSS_TILE_CLASS;
 
@@ -76,7 +76,7 @@ export default class Tile {
     value.innerHTML = this.value;
 
     tile.appendChild(value);
-    parentElement.appendChild(tile);
+    this.parent.appendChild(tile);
     return tile;
   }
 
@@ -176,7 +176,7 @@ export default class Tile {
 
   setMergedFrom(tile, otherTile) {
     if (this.mergedFrom.length > 2) {
-      console.error('mergedFrom array too large', this.mergedFrom.length);
+      // console.error('mergedFrom array too large', this.mergedFrom.length);
       return;
     }
 
@@ -197,7 +197,7 @@ export default class Tile {
   }
 
   needsAnimation() {
-    return needsAnim;
+    return this.needsAnim;
   }
 
   updatePosition(pos) {

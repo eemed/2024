@@ -14,7 +14,7 @@ export const DIRECTION = {
     V
 */
 export default class Grid {
-  constructor(size) {
+  constructor(size = 4) {
     this.size = size;
     this.matrix = this.createMatrix();
   }
@@ -47,10 +47,6 @@ export default class Grid {
     const tile = this.matrix[position][row];
     if (!tile) { return null; }
     return tile;
-  }
-
-  insertTileTo(x, y, value) {
-    this.matrix[x][y] = new Tile(x, y, value);
   }
 
   insertTile(tile) {
