@@ -37,13 +37,14 @@ export default class Grid {
   getTile(i) {
     if (i < 0 || i > (this.size ** 2) - 1) return '';
 
+    let position = i;
     let row = 0;
-    while (i >= 4) {
-      i -= this.size;
+    while (position >= 4) {
+      position -= this.size;
       row += 1;
     }
 
-    const tile = this.matrix[i][row];
+    const tile = this.matrix[position][row];
     if (!tile) { return null; }
     return tile;
   }
@@ -74,14 +75,14 @@ export default class Grid {
     }
   }
 
-  debug() {
-    this.eachTile((x, y, tile) => {
-      if (tile) {
-        console.log('(', tile.position.x,
-          ',', tile.position.y, '), with value ', tile.value);
-      }
-    });
-  }
+  // debug() {
+  //   this.eachTile((x, y, tile) => {
+  //     if (tile) {
+  //       console.log('(', tile.position.x,
+  //         ',', tile.position.y, '), with value ', tile.value);
+  //     }
+  //   });
+  // }
 
   moveTile(tile, to) {
     const from = tile.position;

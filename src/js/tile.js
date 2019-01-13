@@ -2,7 +2,7 @@ const CSS_TILE_CLASS = 'tile';
 const CSS_VALUE_CLASS = 'value';
 const TILE_SIZE = 90;
 const TILE_GAP = 16; // 2 * 8
-const TILE_AREA_PADDING = 7
+const TILE_AREA_PADDING = 7;
 const TILE_TOTAL = TILE_SIZE + TILE_GAP;
 
 export class Position {
@@ -15,30 +15,34 @@ export class Position {
 export function getColor(value) {
   switch (value) {
     case 2:
-      return "#a6b3cc"
+      return '#a6b3cc';
     case 4:
-      return "#565575"
+      return '#565575';
     case 8:
-      return "#ffe9aa"
+      return '#ffe9aa';
     case 16:
-      return "#ff8080"
+      return '#ff8080';
     case 32:
-      return "#95ffa4"
+      return '#95ffa4';
     case 64:
-      return "#91ddff"
+      return '#91ddff';
     case 128:
-      return "#c991e1"
+      return '#c991e1';
     case 256:
-      return "#aaffe4"
+      return '#aaffe4';
     case 512:
-      return "#cbe3e7"
+      return '#cbe3e7';
     case 1024:
-      return "#ff5458"
+      return '#ff5458';
     case 2048:
-      return "#65b2ff"
+      return '#65b2ff';
     default:
-      return "#100e23"
+      return '#100e23';
   }
+}
+
+function toPixels(coord) {
+  return coord * TILE_TOTAL + TILE_AREA_PADDING;
 }
 
 export default class Tile {
@@ -64,10 +68,10 @@ export default class Tile {
   }
 
   createHTMLTile(parentElement) {
-    let tile = document.createElement('div');
+    const tile = document.createElement('div');
     tile.className = CSS_TILE_CLASS;
 
-    let value = document.createElement('p');
+    const value = document.createElement('p');
     value.className = CSS_VALUE_CLASS;
     value.innerHTML = this.value;
 
@@ -77,7 +81,7 @@ export default class Tile {
   }
 
   removeMerged() {
-    for (let i = 0; i < this.mergedFrom.length; ++i) {
+    for (let i = 0; i < this.mergedFrom.length; i += 1) {
       this.parent.removeChild(this.mergedFrom[i].html);
     }
     this.mergedFrom = [];
@@ -85,42 +89,39 @@ export default class Tile {
 
   preMerge() {
     // For fast players
-    if ( this.mergedFrom.length === 0 ) { return; }
+    if (this.mergedFrom.length === 0) { return; }
 
-    let tile = this.mergedFrom[0];
-    let other = this.mergedFrom[1];
-
-
-    let prepare = (tile) => {
+    /*  eslint no-param-reassign: off */
+    const prepare = (tile) => {
       if (tile.prevPosition === null) {
         tile.prevPosition = tile.position;
         tile.position = new Position(this.position.x, this.position.y);
       } else {
         tile.position = new Position(this.position.x, this.position.y);
       }
-    }
+    };
+    /*  eslint no-param-reassign: error */
 
-    prepare(tile);
-    prepare(other);
+    this.mergedFrom.forEach(prepare);
   }
 
   progressMerge(time) {
     // For fast players
-    if ( this.mergedFrom.length === 0 ) { return; }
+    if (this.mergedFrom.length === 0) { return {}; }
 
-    let tile = this.mergedFrom[0];
-    let other = this.mergedFrom[1];
-    let tileProg = tile.progress(time);
-    let otherProg = other.progress(time);
+    const tile = this.mergedFrom[0];
+    const other = this.mergedFrom[1];
+    const tileProg = tile.progress(time);
+    const otherProg = other.progress(time);
     return { tileProg, otherProg };
   }
 
   drawMerge(progress) {
     // For fast players
-    if ( this.mergedFrom.length === 0 ) { return; }
+    if (this.mergedFrom.length === 0) { return; }
 
-    let tile = this.mergedFrom[0];
-    let other = this.mergedFrom[1];
+    const tile = this.mergedFrom[0];
+    const other = this.mergedFrom[1];
 
     tile.draw(progress.tileProg);
     other.draw(progress.otherProg);
@@ -135,27 +136,26 @@ export default class Tile {
 
   draw(progress) {
     if (this.prevPosition) {
-      let x = this.toPixels(this.prevPosition.x) + progress.x;
-      let y = this.toPixels(this.prevPosition.y) + progress.y;
-      this.html.style.top = y + "px";
-      this.html.style.left = x + "px";
+      const x = toPixels(this.prevPosition.x) + progress.x;
+      const y = toPixels(this.prevPosition.y) + progress.y;
+      this.html.style.top = `${y}px`;
+      this.html.style.left = `${x}px`;
     }
   }
 
   progress(time) {
     if (this.prevPosition) {
-      let progX = Math.round(
-        (this.position.x - this.prevPosition.x) * TILE_TOTAL * time
+      const progX = Math.round(
+        (this.position.x - this.prevPosition.x) * TILE_TOTAL * time,
       );
 
-      let progY = Math.round(
-        (this.position.y - this.prevPosition.y) * TILE_TOTAL * time
+      const progY = Math.round(
+        (this.position.y - this.prevPosition.y) * TILE_TOTAL * time,
       );
 
       return { x: progX, y: progY };
-    } else {
-      return;
     }
+    return { x: 0, y: 0 };
   }
 
   post() {
@@ -163,14 +163,11 @@ export default class Tile {
     this.needsAnim = false;
   }
 
-  toPixels(coord) {
-    return coord * TILE_TOTAL + TILE_AREA_PADDING;
-  }
 
   instantRender() {
-    this.html.style.left = this.toPixels(this.position.x) + "px";
-    this.html.style.top = this.toPixels(this.position.y) + "px";
-    this.html.style.background = getColor(this.value)
+    this.html.style.left = `${toPixels(this.position.x)}px`;
+    this.html.style.top = `${toPixels(this.position.y)}px`;
+    this.html.style.background = getColor(this.value);
   }
 
   removeHTML() {

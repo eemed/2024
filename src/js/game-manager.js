@@ -8,6 +8,7 @@ const GAME_STATE = { LOST: 0, WON: 1, NEUTRAL: 2 };
 const MESSAGES = { LOSE: 'Game Over!', PLAY_AGAIN: 'Play again?' };
 const MENU_TEXT_CSS_CLASS = 'menu-text';
 const MENU_BUTTON_CSS_CLASS = 'menu-button';
+const RESTART_BUTTON_ID = 'restart-button';
 
 export default class GameManager {
   constructor(size) {
@@ -26,10 +27,11 @@ export default class GameManager {
 
     this.inputManager.on(EVENTS.MOVE, this.onMove);
     this.inputManager.on(EVENTS.RESTART, this.onRestart);
-    this.inputManager.onClick('#restart-button', this.onRestart);
+
+    const restartButton = document.querySelector(`#${RESTART_BUTTON_ID}`);
+    restartButton.addEventListener('click', this.onRestart);
 
     this.startGame();
-    this.renderLose();
   }
 
   /**
@@ -304,12 +306,11 @@ export default class GameManager {
     const button = document.createElement('button');
     button.className = MENU_BUTTON_CSS_CLASS;
     button.innerHTML = MESSAGES.PLAY_AGAIN;
+    button.addEventListener('click', this.onRestart);
 
     div.appendChild(p);
     div.appendChild(button);
 
     this.renderer.renderMenu(div);
-
-    this.inputManager.onClick('.menu-button', this.onRestart);
   }
 }
