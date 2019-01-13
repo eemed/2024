@@ -1,2 +1,29 @@
 # 2048
-Web implementation of 2048 in pure html, css and javascript.
+
+Web implementation of 2048.
+![Screenshot](screenshots/screenshot.png)
+
+## Getting started
+
+### Prerequisites
+
+You will need to have npm installed.
+
+### Installing
+
+Clone this repository
+
+```git clone https://github.com/eemed/2048```
+
+Navigate to the directory
+
+```cd 2048```
+
+Install packages
+
+```npm install```
+
+Run the dev environment
+
+```npm run dev```
+
