@@ -43,10 +43,9 @@ export default class Grid {
       row += 1;
     }
 
-    let tile = this.matrix[i][row];
+    const tile = this.matrix[i][row];
     if (!tile) { return null; }
     return tile;
-
   }
 
   insertTileTo(x, y, value) {
@@ -85,8 +84,7 @@ export default class Grid {
   }
 
   moveTile(tile, to) {
-
-    let from = tile.position;
+    const from = tile.position;
     this.matrix[to.x][to.y] = this.matrix[from.x][from.y];
     this.removeTile(from.x, from.y);
 
@@ -152,7 +150,7 @@ export default class Grid {
   }
 
   getAdjacentTiles(tile) {
-    let tiles = [];
+    const tiles = [];
     let adj = null;
 
     if (tile.position.x > 0) {
