@@ -1,4 +1,4 @@
-import Tile, { Position } from './tile';
+import { Position } from './tile';
 
 export const DIRECTION = {
   UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4,
