@@ -14,7 +14,7 @@ You will need to have npm installed.
 
 Clone this repository
 
-```git clone https://github.com/eemed/2048```
+```git clone https://github.com/eemed/2048.git```
 
 Navigate to the directory
 
