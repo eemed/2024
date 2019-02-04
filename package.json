@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "build": "parcel build src/index.html -d public --no-cache",
-    "dev": "parcel serve src/index.html -d public --no-cache"
+    "build": "parcel build src/index.html --no-cache",
+    "dev": "parcel serve src/index.html --no-cache"
   },
   "repository": {
     "type": "git",
