@@ -56,13 +56,15 @@
         </p>
       </div>
     </div>
+
     {{#if scores}}
       <ol>
-        {{#each score}}
+        {{#each scores}}
           <li>{{ name }} -- {{ score }}</li>
         {{/each}}
       </ol>
     {{/if}}
+
     <script src="/static/js/app.js"></script>
   </body>
 </html>
