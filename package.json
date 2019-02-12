@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "build": "parcel build src/index.html --no-cache",
-    "dev": "parcel serve src/index.html --no-cache"
+    "build": "parcel build src/js/app.js --no-cache -d dist/js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -31,9 +31,11 @@
   },
   "dependencies": {
     "express": "^4.16.4",
-    "helmet": "^3.15.0",
+    "express-hbs": "^2.0.2",
+    "helmet": "^3.15.1",
     "mongoose": "^5.4.10",
-    "parcel": "^1.10.3"
+    "parcel": "^1.10.3",
+    "path": "^0.12.7"
   },
   "jest": {
     "roots": [
