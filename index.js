@@ -2,12 +2,14 @@ const express = require('express');
 const helmet = require('helmet');
 const hbs = require('express-hbs');
 const path = require('path');
-const index = require('./controllers/index');
+const bodyParser = require('body-parser');
+const index = require('./controllers');
 
 const port = 3000;
 const app = express();
 
 app.use(helmet());
+app.use(bodyParser.urlencoding({ extended: false }));
 
 app.engine('hbs', hbs.express4());
 app.set('view engine', 'hbs');
