@@ -9,7 +9,7 @@ const port = 3000;
 const app = express();
 
 app.use(helmet());
-app.use(bodyParser.urlencoding({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.engine('hbs', hbs.express4());
 app.set('view engine', 'hbs');
