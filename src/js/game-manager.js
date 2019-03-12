@@ -30,8 +30,6 @@ export default class GameManager {
 
     const restartButton = document.querySelector(`#${RESTART_BUTTON_ID}`);
     restartButton.addEventListener('click', this.onRestart);
-
-    this.startGame();
   }
 
   /**
