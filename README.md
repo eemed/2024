@@ -1,8 +1,8 @@
 # 2048
 
-![Screenshot](screenshots/screenshot.png)
-
 Web implementation of 2048.
+
+![Screenshot](screenshots/screenshot.png)
 
 ## Getting started
 
