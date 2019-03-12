@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "build": "parcel build src/js/app.js --no-cache -d dist/js",
+    "build": "parcel build src/js/app.js --no-cache -d static/js",
     "start": "node index.js"
   },
   "repository": {
