@@ -1,3 +1,4 @@
 import GameManager from './game-manager';
 
-GameManager(4);
+const gm = new GameManager(4);
+gm.startGame();
