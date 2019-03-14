@@ -23,27 +23,37 @@
           <button id="restart-button">New game</button>
         </div>
 
-        <div class="tile-area">
-          <div class="ghost-container">
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
+        <div class="flex">
+          <div class="tile-area">
+            <div class="ghost-container">
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
 
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
 
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
 
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
-            <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+              <div class="ghost-tile"></div>
+            </div>
+          </div>
+
+          <div id="high-scores">
+            <ol class="hs-list">
+              {{#each scores}}
+                <li class="item">{{ name }} - {{ score }}</li>
+              {{/each}}
+            </ol>
           </div>
         </div>
       </div>
@@ -57,13 +67,6 @@
       </div>
     </div>
 
-    {{#if scores}}
-      <ol>
-        {{#each scores}}
-          <li>{{ name }} -- {{ score }}</li>
-        {{/each}}
-      </ol>
-    {{/if}}
 
     <script src="/static/js/app.js"></script>
   </body>
